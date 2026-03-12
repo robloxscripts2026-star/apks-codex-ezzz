@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CODEX EZZ | SUPREME MODAL HUB</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Inter:wght@400;700;900&family=Outfit:wght@300;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* ================================================================
+           SISTEMA DE DISEÑO DE VANGUARDIA (CSS3)
+           ================================================================
+        */
+        :root {
+            --accent: #00f2ff;
+            --accent-glow: rgba(0, 242, 255, 0.5);
+            --bg-deep: #020205;
+            --glass: rgba(15, 18, 25, 0.8);
+            --glass-heavy: rgba(10, 10, 15, 0.95);
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #94a3b8;
+            --error: #ff4757;
+            --rivals: #ff0055;
+            --blox: #00a2ff;
+            --mm2: #ff78d2;
+            --sas: #bc47ff;
+        }
+
+        /* Reset Total */
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            overflow: hidden; /* Evita scroll innecesario en el menú principal */
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* ================================================================
+           FONDO ANIMADO (GRID & GLOWS)
+           ================================================================
+        */
+        .bg-wrapper {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background: radial-gradient(circle at 50% 50%, #0a0c1a 0%, #020205 100%);
+        }
+
+        .cyber-grid {
+            position: absolute; width: 200%; height: 200%;
+            background-image: linear-gradient(var(--border) 1px, transparent 1px),
+                              linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: perspective(500px) rotateX(60deg) translateY(-20%);
+            animation: gridMove 20s linear infinite;
+            opacity: 0.2;
+        }
+
+        @keyframes gridMove {
+            from { background-position: 0 0; }
+            to { background-position: 0 100%; }
+        }
+
+        /* ================================================================
+           LAYOUT PRINCIPAL (EL MENÚ INCREÍBLE)
+           ================================================================
+        */
+        .main-container {
+            padding: 40px 20px;
+            max-width: 500px;
+            margin: 0 auto;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .logo {
+            font-size: 3.2rem;
+            font-weight: 900;
+            letter-spacing: -3px;
+            background: linear-gradient(to right, #fff, var(--accent), #fff);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: shine 4s linear infinite;
+        }
+
+        @keyframes shine { to { background-position: 200% center; } }
+
+        /* Rectángulos del Menú */
+        .menu-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .menu-item {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            padding: 22px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-item:active { transform: scale(0.95); }
+
+        .item-icon {
+            width: 58px; height: 58px;
+            border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 26px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+        }
+
+        .item-info h3 { font-size: 1.15rem; font-weight: 700; }
+        .item-info p { font-size: 0.8rem; color: var(--text-dim); margin-top: 2px; }
+
+        /* Colores por ítem */
+        .m-rivals { border-left: 5px solid var(--rivals); }
+        .m-rivals .item-icon { background: rgba(255,0,85,0.15); color: var(--rivals); }
+
+        .m-blox { border-left: 5px solid var(--blox); }
+        .m-blox .item-icon { background: rgba(0,162,255,0.15); color: var(--blox); }
+
+        .m-mm2 { border-left: 5px solid var(--mm2); }
+        .m-mm2 .item-icon { background: rgba(255,120,210,0.15); color: var(--mm2); }
+
+        .m-sas { border-left: 5px solid var(--sas); }
+        .m-sas .item-icon { background: rgba(188,71,255,0.15); color: var(--sas); }
+
+        /* ================================================================
+           VENTANAS EMERGENTES (MODALES) - EL CORAZÓN DEL CÓDIGO
+           ================================================================
+        */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: none; /* Oculto por defecto */
+            align-items: center; justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-card {
+            background: var(--glass-heavy);
+            border: 1px solid rgba(255,255,255,0.15);
+            width: 100%;
+            max-width: 420px;
+            border-radius: 32px;
+            position: relative;
+            padding: 35px 25px 25px;
+            transform: scale(0.8) translateY(30px);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+        }
+
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-overlay.active .modal-card { transform: scale(1) translateY(0); }
+
+        /* BOTÓN X PARA SALIR */
+        .close-x {
+            position: absolute; top: 20px; right: 20px;
+            width: 36px; height: 36px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            border: 1px solid var(--border);
+        }
+
+        .close-x:hover { background: var(--error); transform: rotate(90deg); }
+
+        /* Contenido del Modal */
+        .modal-header { margin-bottom: 20px; text-align: center; }
+        .modal-header h2 { font-size: 1.8rem; letter-spacing: -1px; }
+
+        .script-box {
+            background: #000;
+            border-radius: 18px;
+            padding: 18px;
+            margin: 20px 0;
+            border: 1px dashed var(--accent);
+            position: relative;
+        }
+
+        .script-box code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: #00ffaa;
+            word-break: break-all;
+            display: block;
+            line-height: 1.4;
+        }
+
+        .copy-btn {
+            width: 100%;
+            padding: 18px;
+            border-radius: 16px;
+            border: none;
+            background: var(--accent);
+            color: #000;
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 10px 20px var(--accent-glow);
+            transition: 0.3s;
+        }
+
+        .copy-btn:active { transform: scale(0.96); filter: brightness(1.2); }
+
+        /* Notificaciones */
+        #toast {
+            position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+            background: #fff; color: #000; padding: 12px 25px; border-radius: 50px;
+            font-weight: 700; z-index: 2000; display: none;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp { from { transform: translate(-50%, 20px); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
+
+        .footer-info {
+            margin-top: auto;
+            text-align: center;
+            padding-bottom: 20px;
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 2px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="bg-wrapper">
+        <div class="cyber-grid"></div>
+    </div>
+
+    <div id="toast">¡COPIADO CON ÉXITO! ✅</div>
+
+    <div class="main-container">
+        <div class="header">
+            <h1 class="logo">CODEX EZZ</h1>
+            <p style="color: var(--accent); font-weight: 700; font-size: 0.7rem; letter-spacing: 5px;">MOBILE HUB PREMIUM</p>
+        </div>
+
+        <div class="menu-stack">
+            <div class="menu-item m-rivals" onclick="openModal('modal-rivals')">
+                <div class="item-icon">🎯</div>
+                <div class="item-info">
+                    <h3>RIVALS ELITE</h3>
+                    <p>Aimbot & Esp (Update v2.4)</p>
+                </div>
+            </div>
+
+            <div class="menu-item m-blox" onclick="openModal('modal-blox')">
+                <div class="item-icon">👾</div>
+                <div class="item-info">
+                    <h3>BLOX FRUITS HUB</h3>
+                    <p>Autofarm & Fruit Finder Master</p>
+                </div>
+            </div>
+
+            <div class="menu-item m-mm2" onclick="openModal('modal-mm2')">
+                <div class="item-icon">🪐</div>
+                <div class="item-info">
+                    <h3>MM2 VALENTINE</h3>
+                    <p>Evento de Monedas & Role Detect</p>
+                </div>
+            </div>
+
+            <div class="menu-item m-sas" onclick="openModal('modal-sas')">
+                <div class="item-icon">🟣</div>
+                <div class="item-info">
+                    <h3>SASWARE PRO</h3>
+                    <p>Script Universal (Key System)</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-info">
+            SISTEMA CARGADO | v3.0.1
+        </div>
+    </div>
+
+    <div id="modal-rivals" class="modal-overlay" onclick="closeModalOnSide(event, 'modal-rivals')">
+        <div class="modal-card">
+            <div class="close-x" onclick="closeModal('modal-rivals')">✕</div>
+            <div class="modal-header">
+                <h2 style="color: var(--rivals);">RIVALS ELITE</h2>
+                <p style="font-size: 0.8rem; color: #888;">Combat Efficiency Module</p>
+            </div>
+            <p style="font-size: 0.9rem; text-align: center;">Script optimizado para el último parche. No detectado por el Anti-Cheat oficial.</p>
+            <div class="script-box">
+                <code id="sc-rivals">loadstring(game:HttpGet("https://pastebin.com/raw/tffyi0uA"))()</code>
+            </div>
+            <button class="copy-btn" onclick="copy('sc-rivals')">COPIAR SCRIPT 📋</button>
+        </div>
+    </div>
+
+    <div id="modal-blox" class="modal-overlay" onclick="closeModalOnSide(event, 'modal-blox')">
+        <div class="modal-card">
+            <div class="close-x" onclick="closeModal('modal-blox')">✕</div>
+            <div class="modal-header">
+                <h2 style="color: var(--blox);">BLOX FRUITS</h2>
+                <p style="font-size: 0.8rem; color: #888;">Leveling & Mastery Module</p>
+            </div>
+            <p style="font-size: 0.9rem; text-align: center;">Autofarm súper rápido. Recomendado usar en servidores privados.</p>
+            <div class="script-box">
+                <code id="sc-blox">loadstring(game:HttpGet("https://raw.githubusercontent.com/vinh129150/hack/refs/heads/main/BaconHub.lua"))()</code>
+            </div>
+            <button class="copy-btn" onclick="copy('sc-blox')">COPIAR SCRIPT 📋</button>
+        </div>
+    </div>
+
+    <div id="modal-mm2" class="modal-overlay" onclick="closeModalOnSide(event, 'modal-mm2')">
+        <div class="modal-card">
+            <div class="close-x" onclick="closeModal('modal-mm2')">✕</div>
+            <div class="modal-header">
+                <h2 style="color: var(--mm2);">MM2 VALENTINE</h2>
+                <p style="font-size: 0.8rem; color: #888;">Event & Detection Module</p>
+            </div>
+            <p style="font-size: 0.9rem; text-align: center;">Recoge monedas rosas y activa el ESP de Asesino/Sheriff al instante.</p>
+            <div class="script-box">
+                <code id="sc-mm2">loadstring(game:HttpGet('https://meowrobux.vercel.app/raw/autofarm.lua'))()</code>
+            </div>
+            <button class="copy-btn" onclick="copy('sc-mm2')">COPIAR SCRIPT 📋</button>
+        </div>
+    </div>
+
+    <div id="modal-sas" class="modal-overlay" onclick="closeModalOnSide(event, 'modal-sas')">
+        <div class="modal-card">
+            <div class="close-x" onclick="closeModal('modal-sas')">✕</div>
+            <div class="modal-header">
+                <h2 style="color: var(--sas);">SASWARE PRO</h2>
+                <p style="font-size: 0.8rem; color: #888;">Global Bootstrapper</p>
+            </div>
+            <p style="font-size: 0.9rem; text-align: center;">Requiere Key. Este script carga el menú universal de Sasware.</p>
+            <div class="script-box">
+                <code id="sc-sas">loadstring(game:HttpGet("https://api.sasware.dev/script/Bootstrapper.luau"))()</code>
+            </div>
+            <button class="copy-btn" onclick="copy('sc-sas')">COPIAR SCRIPT 📋</button>
+        </div>
+    </div>
+
+    <script>
+        // Función para abrir la ventana
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            modal.style.display = 'flex';
+            // Pequeño delay para que la transición de CSS funcione
+            setTimeout(() => {
+                modal.classList.add('active');
+            }, 10);
+        }
+
+        // Función para cerrar la ventana
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.remove('active');
+            // Esperamos a que termine la animación para quitar el display flex
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 400);
+        }
+
+        // Cerrar si picas fuera de la tarjeta blanca (en el fondo oscuro)
+        function closeModalOnSide(event, id) {
+            if (event.target.id === id) {
+                closeModal(id);
+            }
+        }
+
+        // Función de copiado con Toast
+        function copy(id) {
+            const text = document.getElementById(id).innerText;
+            const input = document.createElement('textarea');
+            input.value = text;
+            document.body.appendChild(input);
+            input.select();
+            document.execCommand('copy');
+            document.body.removeChild(input);
+
+            // Mostrar aviso de éxito
+            const toast = document.getElementById('toast');
+            toast.style.display = 'block';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 2000);
+        }
+
+        // Efecto visual: Vibración al abrir (opcional)
+        window.onload = () => {
+            console.log("Codex Ezz Hub Ready");
+        };
+    </script>
+</body>
+              </html>
+              
