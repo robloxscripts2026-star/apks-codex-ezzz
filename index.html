@@ -3,70 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>APK SUPREME | BYPASS & MUSIC</title>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Outfit:wght@300;600;900&display=swap" rel="stylesheet">
+    <title>APK SUPREME | VIP HUB</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-deep: #050508;
-            --glass: rgba(10, 12, 18, 0.95);
             --text-main: #ffffff;
             --text-dim: #94a3b8;
             --clr-1: #00eeff; --clr-2: #ff0080; --clr-3: #9d00ff;
+            --gold: #ffd700;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--bg-deep); color: var(--text-main); min-height: 100vh; padding-bottom: 80px; overflow-x: hidden; }
 
-        /* --- Header --- */
         .header { text-align: center; padding: 40px 20px 20px; }
         .logo { font-size: 2.5rem; font-weight: 900; background: linear-gradient(to right, #fff, var(--clr-1), #fff); -webkit-background-clip: text; color: transparent; }
-        .rgb-bar { font-size: 0.7rem; font-weight: 800; letter-spacing: 3px; background: linear-gradient(90deg, var(--clr-1), var(--clr-2), var(--clr-3)); -webkit-background-clip: text; color: transparent; animation: hue 3s linear infinite; }
-        @keyframes hue { 100% { filter: hue-rotate(360deg); } }
+        
+        /* Animación Dorada Premium con Movimiento */
+        .premium-tag {
+            font-size: 0.7rem; font-weight: 900; color: var(--gold);
+            background: linear-gradient(90deg, #b8860b, #ffd700, #b8860b);
+            background-size: 200% auto; -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent; animation: shineGold 2s linear infinite;
+            letter-spacing: 1px; margin-bottom: 5px; display: block;
+        }
+        @keyframes shineGold { to { background-position: 200% center; } }
 
-        /* --- Grid de Apps --- */
         .main-container { max-width: 500px; margin: 0 auto; padding: 0 20px; display: flex; flex-direction: column; gap: 15px; }
         .menu-item { position: relative; overflow: hidden; border-radius: 18px; padding: 2px; transition: 0.2s; cursor: pointer; }
         .menu-item::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: conic-gradient(transparent, transparent, var(--clr-1), var(--clr-2), var(--clr-3), transparent); animation: rotate 4s linear infinite; }
         @keyframes rotate { 100% { transform: rotate(360deg); } }
+        
         .item-content { position: relative; z-index: 1; background: #0c0f16; border-radius: 16px; padding: 15px; display: flex; align-items: center; gap: 15px; }
         .item-icon { width: 50px; height: 50px; border-radius: 12px; background: #1a1e29; display: flex; align-items: center; justify-content: center; font-size: 24px; }
 
-        /* --- EMOJI FLOTANTE 👾 --- */
-        .floating-monkey {
-            position: fixed; bottom: 25px; right: 25px; font-size: 50px; z-index: 999;
-            cursor: pointer; filter: drop-shadow(0 0 10px var(--clr-3));
-            animation: float 3s ease-in-out infinite;
-        }
+        .floating-monkey { position: fixed; bottom: 25px; right: 25px; font-size: 50px; z-index: 999; cursor: pointer; filter: drop-shadow(0 0 10px var(--clr-3)); animation: float 3s ease-in-out infinite; }
         @keyframes float { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-10px) scale(1.1); } }
 
-        /* --- SISTEMA KEY (MODAL LOGIN) --- */
-        .key-system-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95); z-index: 1001; display: none;
-            align-items: center; justify-content: center; padding: 20px;
-        }
-        .key-card {
-            background: #0a0a0f; border: 2px solid var(--clr-3); width: 100%; max-width: 320px;
-            border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 0 30px rgba(157, 0, 255, 0.3);
-        }
-        .key-card h2 { font-size: 1.2rem; letter-spacing: 2px; color: var(--clr-1); margin-bottom: 20px; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .modal-card { background: #121620; border: 1px solid rgba(255,255,255,0.1); width: 100%; max-width: 350px; border-radius: 25px; padding: 30px; text-align: center; }
+        .modal-overlay.active { display: flex; }
         
-        .key-input {
-            width: 100%; background: #161625; border: 1px solid #333; padding: 15px;
-            border-radius: 10px; color: #fff; text-align: center; font-family: 'JetBrains Mono', monospace;
-            margin-bottom: 20px; outline: none;
-        }
+        .btn-link { display: block; width: 100%; padding: 16px; margin-top: 20px; border-radius: 12px; background: linear-gradient(45deg, var(--clr-1), var(--clr-3)); color: #000; text-decoration: none; font-weight: 900; text-transform: uppercase; }
+        .btn-exclusivo { background: linear-gradient(45deg, #1a1a1a, #330000); color: #666 !important; border: 1px solid #444; cursor: not-allowed; }
 
+        .key-card { background: #0a0a0f; border: 2px solid var(--clr-3); width: 100%; max-width: 320px; border-radius: 20px; padding: 30px; text-align: center; }
+        .key-input { width: 100%; background: #161625; border: 1px solid #333; padding: 15px; border-radius: 10px; color: #fff; text-align: center; margin-bottom: 20px; outline: none; }
         .key-buttons { display: flex; gap: 10px; }
         .btn-login { flex: 2; background: var(--clr-1); color: #000; font-weight: 800; border: none; padding: 12px; border-radius: 10px; cursor: pointer; }
         .btn-buy { flex: 1; background: #fff; color: #000; font-weight: 800; border: none; padding: 12px; border-radius: 10px; cursor: pointer; text-decoration: none; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; }
-
-        /* --- Estilo Modales Apps --- */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; }
-        .modal-card { background: #121620; border: 1px solid rgba(255,255,255,0.1); width: 100%; max-width: 350px; border-radius: 25px; padding: 30px; text-align: center; }
-        .btn-link { display: block; width: 100%; padding: 16px; margin-top: 20px; border-radius: 12px; background: linear-gradient(45deg, var(--clr-1), var(--clr-3)); color: #000; text-decoration: none; font-weight: 900; }
-        
-        .modal-overlay.active, .key-system-overlay.active { display: flex; }
     </style>
 </head>
 <body>
@@ -76,23 +62,22 @@
     </audio>
 
     <div class="header">
-        <h1 class="logo">APK SUPREME</h1>
-        <p class="rgb-bar">SISTEMA RGB MODS ACTIVADO</p>
+        <h1 class="logo">APK MODS</h1>
     </div>
 
     <div class="main-container" id="apps-list"></div>
 
     <div class="floating-monkey" onclick="toggleKeySystem()">👾</div>
 
-    <div id="key-system" class="key-system-overlay">
+    <div id="key-system" class="modal-overlay">
         <div class="key-card">
-            <h2>APPS BYPASS</h2>
+            <h2 style="margin-bottom:15px;">LOGIN BYPASS</h2>
             <input type="text" id="pass-input" class="key-input" placeholder="Contraseña 🔑">
             <div class="key-buttons">
                 <button class="btn-login" onclick="checkKey()">LOGIN 👤</button>
-                <a href="https://tiktok.com/@saswarsasware332" target="_blank" class="btn-buy">BUY 💳</a>
+                <a href="tiktok.com/@softworks32" target="_blank" class="btn-buy">BUY 💳</a>
             </div>
-            <p onclick="toggleKeySystem()" style="margin-top: 15px; font-size: 0.7rem; color: #555; cursor: pointer;">CANCELAR</p>
+            <p onclick="toggleKeySystem()" style="margin-top:15px; font-size:0.7rem; color: #555; cursor: pointer;">CERRAR</p>
         </div>
     </div>
 
@@ -100,62 +85,59 @@
 
     <script>
         const apps = [
-            { id: 'app1', name: 'CAPCUT PRO', desc: 'Versión Premium VIP', icon: '🎬', link: '#' },
-            { id: 'app2', name: 'SPOTIFY MOD', desc: 'Música sin límites', icon: '🎵', link: '#' },
-            { id: 'app3', name: 'TIKTOK BYPASS', desc: 'Zero Ads & Download', icon: '📱', link: '#' },
-            { id: 'app4', name: 'NETFLIX MOD', desc: 'Contenido Unlocked', icon: '🎥', link: '#' },
-            { id: 'app5', name: 'MINECRAFT PE', desc: 'Full Game Gratis', icon: '🧱', link: '#' },
-            { id: 'app6', name: 'GTA SA MOD', desc: 'Cheats Menu v2.0', icon: '🚗', link: '#' },
-            { id: 'app7', name: 'KINEMASTER', desc: 'No Watermark Pro', icon: '✂️', link: '#' },
-            { id: 'app8', name: 'FREE FIRE', desc: 'Mod Menu 2026', icon: '🔥', link: '#' },
-            { id: 'app9', name: 'PICSART GOLD', desc: 'Todo Desbloqueado', icon: '🎨', link: '#' },
-            { id: 'app10', name: 'ROBLOX HUB', desc: 'Executor Included', icon: '🎮', link: '#' },
-            { id: 'app11', name: 'WA PLUS', desc: 'Antiban & Privacy', icon: '💬', link: '#' },
-            { id: 'app12', name: 'CANVA PRO', desc: 'Diseños Premium', icon: '🖌️', link: '#' }
+            { id: 'app1', name: 'CAP CUT PRO', desc: 'Edición VIP Unlocked', icon: '🎬', link: 'https://www.mediafire.com/file/epm2wsvnt6qe3il/CapCut_PR____14.7.0_ui_old.apk/file', premium: false },
+            { id: 'app2', name: 'DELTA EXECUTOR', desc: 'Roblox Exploit', icon: '🤖', link: 'https://deltaexploits.gg/delta-executor-android', premium: false },
+            { id: 'app3', name: 'DTW MOD MENU', desc: 'Mod Menu Activo', icon: '🔫', link: 'https://www.mediafire.com/file/we76rly3z832ba8/DTW_ModMenu_0909f6.apk/file', premium: false },
+            { id: 'app4', name: 'GTA SAN ANDREAS', desc: 'Versión v2.11.277', icon: '🚗', link: 'https://www.mediafire.com/file/5brnv5qxhtng8no/gta%20san%20andreas%20v2.11.277%20-%20espacioapk.com.apk/file', premium: false },
+            { id: 'app5', name: 'CANVA PRO', desc: 'Diseño Pro Unlocked', icon: '🎨', link: 'https://drive.google.com/file/d/1j6TawOR3bG-g2QVjE5YA1hfEiupb9xY6/view', premium: false },
+            { id: 'app6', name: 'MINECRAFT APK', desc: 'Última Versión', icon: '🧱', link: 'https://mineckraftapk.com.mx/', premium: false },
+            { id: 'app7', name: 'WHATSAPP PLUS', desc: 'Privacidad Premium', icon: '💬', link: '#', premium: true, locked: true },
+            { id: 'app8', name: 'SPOTIFY PREMIUM', desc: 'Música sin anuncios', icon: '🎵', link: '#', premium: true, locked: true },
+            { id: 'app9', name: 'PRÓXIMAMENTE', desc: 'Nueva app en camino', icon: '🔥', link: '#', premium: false },
+            { id: 'app10', name: 'PRÓXIMAMENTE', desc: 'Nueva app en camino', icon: '🔥', link: '#', premium: false }
         ];
 
         const listDiv = document.getElementById('apps-list');
         const modalDiv = document.getElementById('modals-container');
 
         apps.forEach(app => {
+            const premLabel = app.premium ? `<span class="premium-tag">PREMIUM 👑</span>` : '';
+            
             listDiv.innerHTML += `
                 <div class="menu-item" onclick="openModal('${app.id}')">
                     <div class="item-content">
                         <div class="item-icon">${app.icon}</div>
-                        <div class="item-info"><h3>${app.name}</h3><p>${app.desc}</p></div>
+                        <div class="item-info">
+                            ${premLabel}
+                            <h3>${app.name}</h3>
+                            <p>${app.desc}</p>
+                        </div>
                     </div>
                 </div>`;
+            
+            const btnText = app.locked ? `APSS EXCLUSIVAS🚫` : `DESCARGAR AHORA 🚀`;
+            const btnClass = app.locked ? `btn-link btn-exclusivo` : `btn-link`;
+
             modalDiv.innerHTML += `
                 <div id="${app.id}" class="modal-overlay" onclick="closeModalOnSide(event, '${app.id}')">
                     <div class="modal-card">
-                        <h2>${app.name}</h2>
-                        <p style="margin:15px 0; color:var(--text-dim);">Obtén el enlace directo de descarga aquí abajo.</p>
-                        <a href="${app.link}" target="_blank" class="btn-link">IR AL ENLACE 🚀</a>
+                        <h2 style="${app.premium ? 'color:var(--gold)' : ''}">${app.name}</h2>
+                        <p style="margin:15px 0; color:var(--text-dim);">${app.locked ? 'Esta app es exclusiva VIP. No disponible para descarga directa.' : 'Toca el botón para ir al enlace de descarga.'}</p>
+                        <a href="${app.locked ? 'javascript:void(0)' : app.link}" ${app.locked ? '' : 'target="_blank"'} class="${btnClass}">${btnText}</a>
                         <p onclick="closeModal('${app.id}')" style="margin-top:15px; font-size:0.8rem; cursor:pointer;">Cerrar</p>
                     </div>
                 </div>`;
         });
 
         const validKeys = ["7K#9p2$xR4%z", "3@b8D!5nM&2*", "9Q+1w?6Yh/3=", "5£u4J>7tG{0,", "2§V8a<9kN}1."];
-
-        function startMusic() {
-            const music = document.getElementById('bg-music');
-            music.volume = 0.5;
-            music.play();
-            window.removeEventListener('click', startMusic);
-            window.removeEventListener('touchstart', startMusic);
-        }
+        function startMusic() { const m = document.getElementById('bg-music'); m.volume = 0.5; m.play(); window.removeEventListener('click', startMusic); }
         window.addEventListener('click', startMusic);
-        window.addEventListener('touchstart', startMusic);
-
         function toggleKeySystem() { document.getElementById('key-system').classList.toggle('active'); }
         function checkKey() {
             const input = document.getElementById('pass-input').value;
-            if (validKeys.includes(input)) {
-                window.location.href = "https://robloxscripts2026-star.github.io/DRIP-KEY/";
-            } else { alert("❌ CONTRASEÑA INCORRECTA"); }
+            if (validKeys.includes(input)) { window.location.href = "https://robloxscripts2026-star.github.io/DRIP-KEY/"; }
+            else { alert("❌ CONTRASEÑA INCORRECTA"); }
         }
-
         function openModal(id) { document.getElementById(id).classList.add('active'); }
         function closeModal(id) { document.getElementById(id).classList.remove('active'); }
         function closeModalOnSide(event, id) { if (event.target.id === id) closeModal(id); }
