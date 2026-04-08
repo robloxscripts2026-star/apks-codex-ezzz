@@ -2,145 +2,113 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>APK SUPREME | VIP HUB</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PÁGINA SUSPENDIDA | APK MODS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-deep: #050508;
-            --text-main: #ffffff;
-            --text-dim: #94a3b8;
-            --clr-1: #00eeff; --clr-2: #ff0080; --clr-3: #9d00ff;
-            --gold: #ffd700;
+            --bg: #050508;
+            --primary: #ff0033; /* Rojo para indicar suspensión */
+            --accent: #a855f7;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg-deep); color: var(--text-main); min-height: 100vh; padding-bottom: 80px; overflow-x: hidden; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
 
-        .header { text-align: center; padding: 40px 20px 20px; }
-        .logo { font-size: 2.5rem; font-weight: 900; background: linear-gradient(to right, #fff, var(--clr-1), #fff); -webkit-background-clip: text; color: transparent; }
-        
-        /* Animación Dorada Premium con Movimiento */
-        .premium-tag {
-            font-size: 0.7rem; font-weight: 900; color: var(--gold);
-            background: linear-gradient(90deg, #b8860b, #ffd700, #b8860b);
-            background-size: 200% auto; -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent; animation: shineGold 2s linear infinite;
-            letter-spacing: 1px; margin-bottom: 5px; display: block;
+        body {
+            background-color: var(--bg);
+            color: white;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            text-align: center;
         }
-        @keyframes shineGold { to { background-position: 200% center; } }
 
-        .main-container { max-width: 500px; margin: 0 auto; padding: 0 20px; display: flex; flex-direction: column; gap: 15px; }
-        .menu-item { position: relative; overflow: hidden; border-radius: 18px; padding: 2px; transition: 0.2s; cursor: pointer; }
-        .menu-item::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: conic-gradient(transparent, transparent, var(--clr-1), var(--clr-2), var(--clr-3), transparent); animation: rotate 4s linear infinite; }
-        @keyframes rotate { 100% { transform: rotate(360deg); } }
-        
-        .item-content { position: relative; z-index: 1; background: #0c0f16; border-radius: 16px; padding: 15px; display: flex; align-items: center; gap: 15px; }
-        .item-icon { width: 50px; height: 50px; border-radius: 12px; background: #1a1e29; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+        /* Fondo animado sutil */
+        .overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(255, 0, 51, 0.1) 0%, transparent 70%);
+            z-index: -1;
+        }
 
-        .floating-monkey { position: fixed; bottom: 25px; right: 25px; font-size: 50px; z-index: 999; cursor: pointer; filter: drop-shadow(0 0 10px var(--clr-3)); animation: float 3s ease-in-out infinite; }
-        @keyframes float { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-10px) scale(1.1); } }
+        .container { padding: 20px; }
 
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; }
-        .modal-card { background: #121620; border: 1px solid rgba(255,255,255,0.1); width: 100%; max-width: 350px; border-radius: 25px; padding: 30px; text-align: center; }
-        .modal-overlay.active { display: flex; }
-        
-        .btn-link { display: block; width: 100%; padding: 16px; margin-top: 20px; border-radius: 12px; background: linear-gradient(45deg, var(--clr-1), var(--clr-3)); color: #000; text-decoration: none; font-weight: 900; text-transform: uppercase; }
-        .btn-exclusivo { background: linear-gradient(45deg, #1a1a1a, #330000); color: #666 !important; border: 1px solid #444; cursor: not-allowed; }
+        .icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 15px var(--primary));
+            animation: pulse 2s infinite;
+        }
 
-        .key-card { background: #0a0a0f; border: 2px solid var(--clr-3); width: 100%; max-width: 320px; border-radius: 20px; padding: 30px; text-align: center; }
-        .key-input { width: 100%; background: #161625; border: 1px solid #333; padding: 15px; border-radius: 10px; color: #fff; text-align: center; margin-bottom: 20px; outline: none; }
-        .key-buttons { display: flex; gap: 10px; }
-        .btn-login { flex: 2; background: var(--clr-1); color: #000; font-weight: 800; border: none; padding: 12px; border-radius: 10px; cursor: pointer; }
-        .btn-buy { flex: 1; background: #fff; color: #000; font-weight: 800; border: none; padding: 12px; border-radius: 10px; cursor: pointer; text-decoration: none; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.7; }
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            background: linear-gradient(to bottom, #fff, #666);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #94a3b8;
+            font-size: 1.2rem;
+            max-width: 400px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        .status-box {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 1px solid rgba(255, 0, 51, 0.3);
+            border-radius: 50px;
+            background: rgba(255, 0, 51, 0.05);
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .loader {
+            margin-top: 40px;
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            display: inline-block;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-    <audio id="bg-music" loop>
-        <source src="https://files.catbox.moe/aqih3a.m4a" type="audio/mp4">
-    </audio>
+    <div class="overlay"></div>
 
-    <div class="header">
-        <h1 class="logo">APK MODS</h1>
-    </div>
-
-    <div class="main-container" id="apps-list"></div>
-
-    <div class="floating-monkey" onclick="toggleKeySystem()">👾</div>
-
-    <div id="key-system" class="modal-overlay">
-        <div class="key-card">
-            <h2 style="margin-bottom:15px;">LOGIN BYPASS</h2>
-            <input type="text" id="pass-input" class="key-input" placeholder="Contraseña 🔑">
-            <div class="key-buttons">
-                <button class="btn-login" onclick="checkKey()">LOGIN 👤</button>
-                <a href="tiktok.com/@softworks32" target="_blank" class="btn-buy">BUY 💳</a>
-            </div>
-            <p onclick="toggleKeySystem()" style="margin-top:15px; font-size:0.7rem; color: #555; cursor: pointer;">CERRAR</p>
+    <div class="container">
+        <div class="icon">⚠️</div>
+        <h1>PÁGINA SUSPENDIDA</h1>
+        <p>Estamos realizando mejoras en el sistema para brindarte una mejor experiencia VIP.</p>
+        
+        <div class="status-box">
+            Mantenimiento en curso
         </div>
+
+        <br>
+        <div class="loader"></div>
     </div>
 
-    <div id="modals-container"></div>
-
-    <script>
-        const apps = [
-            { id: 'app1', name: 'CAP CUT PRO', desc: 'Edición VIP Unlocked', icon: '🎬', link: 'https://www.mediafire.com/file/epm2wsvnt6qe3il/CapCut_PR____14.7.0_ui_old.apk/file', premium: false },
-            { id: 'app2', name: 'DELTA EXECUTOR', desc: 'Roblox Exploit', icon: '🤖', link: 'https://deltaexploits.gg/delta-executor-android', premium: false },
-            { id: 'app3', name: 'DTW MOD MENU', desc: 'Mod Menu Activo', icon: '🔫', link: 'https://www.mediafire.com/file/we76rly3z832ba8/DTW_ModMenu_0909f6.apk/file', premium: false },
-            { id: 'app4', name: 'GTA SAN ANDREAS', desc: 'Versión v2.11.277', icon: '🚗', link: 'https://www.mediafire.com/file/5brnv5qxhtng8no/gta%20san%20andreas%20v2.11.277%20-%20espacioapk.com.apk/file', premium: false },
-            { id: 'app5', name: 'CANVA PRO', desc: 'Diseño Pro Unlocked', icon: '🎨', link: 'https://drive.google.com/file/d/1j6TawOR3bG-g2QVjE5YA1hfEiupb9xY6/view', premium: false },
-            { id: 'app6', name: 'MINECRAFT APK', desc: 'Última Versión', icon: '🧱', link: 'https://mineckraftapk.com.mx/', premium: false },
-            { id: 'app7', name: 'WHATSAPP PLUS', desc: 'Privacidad Premium', icon: '💬', link: '#', premium: true, locked: true },
-            { id: 'app8', name: 'SPOTIFY PREMIUM', desc: 'Música sin anuncios', icon: '🎵', link: '#', premium: true, locked: true },
-            { id: 'app9', name: 'PRÓXIMAMENTE', desc: 'Nueva app en camino', icon: '🔥', link: '#', premium: false },
-            { id: 'app10', name: 'PRÓXIMAMENTE', desc: 'Nueva app en camino', icon: '🔥', link: '#', premium: false }
-        ];
-
-        const listDiv = document.getElementById('apps-list');
-        const modalDiv = document.getElementById('modals-container');
-
-        apps.forEach(app => {
-            const premLabel = app.premium ? `<span class="premium-tag">PREMIUM 👑</span>` : '';
-            
-            listDiv.innerHTML += `
-                <div class="menu-item" onclick="openModal('${app.id}')">
-                    <div class="item-content">
-                        <div class="item-icon">${app.icon}</div>
-                        <div class="item-info">
-                            ${premLabel}
-                            <h3>${app.name}</h3>
-                            <p>${app.desc}</p>
-                        </div>
-                    </div>
-                </div>`;
-            
-            const btnText = app.locked ? `APSS EXCLUSIVAS🚫` : `DESCARGAR AHORA 🚀`;
-            const btnClass = app.locked ? `btn-link btn-exclusivo` : `btn-link`;
-
-            modalDiv.innerHTML += `
-                <div id="${app.id}" class="modal-overlay" onclick="closeModalOnSide(event, '${app.id}')">
-                    <div class="modal-card">
-                        <h2 style="${app.premium ? 'color:var(--gold)' : ''}">${app.name}</h2>
-                        <p style="margin:15px 0; color:var(--text-dim);">${app.locked ? 'Esta app es exclusiva VIP. No disponible para descarga directa.' : 'Toca el botón para ir al enlace de descarga.'}</p>
-                        <a href="${app.locked ? 'javascript:void(0)' : app.link}" ${app.locked ? '' : 'target="_blank"'} class="${btnClass}">${btnText}</a>
-                        <p onclick="closeModal('${app.id}')" style="margin-top:15px; font-size:0.8rem; cursor:pointer;">Cerrar</p>
-                    </div>
-                </div>`;
-        });
-
-        const validKeys = ["7K#9p2$xR4%z", "3@b8D!5nM&2*", "9Q+1w?6Yh/3=", "5£u4J>7tG{0,", "2§V8a<9kN}1."];
-        function startMusic() { const m = document.getElementById('bg-music'); m.volume = 0.5; m.play(); window.removeEventListener('click', startMusic); }
-        window.addEventListener('click', startMusic);
-        function toggleKeySystem() { document.getElementById('key-system').classList.toggle('active'); }
-        function checkKey() {
-            const input = document.getElementById('pass-input').value;
-            if (validKeys.includes(input)) { window.location.href = "https://robloxscripts2026-star.github.io/DRIP-KEY/"; }
-            else { alert("❌ CONTRASEÑA INCORRECTA"); }
-        }
-        function openModal(id) { document.getElementById(id).classList.add('active'); }
-        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
-        function closeModalOnSide(event, id) { if (event.target.id === id) closeModal(id); }
-    </script>
 </body>
 </html>
