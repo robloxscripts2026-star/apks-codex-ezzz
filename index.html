@@ -3,112 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PÁGINA SUSPENDIDA | APK MODS</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;900&display=swap" rel="stylesheet">
+    <title>DRIP STORE | OFFICIAL ACCESS 👑</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg: #050508;
-            --primary: #ff0033; /* Rojo para indicar suspensión */
-            --accent: #a855f7;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
-
-        body {
-            background-color: var(--bg);
-            color: white;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            text-align: center;
-        }
-
-        /* Fondo animado sutil */
-        .overlay {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at center, rgba(255, 0, 51, 0.1) 0%, transparent 70%);
-            z-index: -1;
-        }
-
-        .container { padding: 20px; }
-
-        .icon {
-            font-size: 80px;
-            margin-bottom: 20px;
-            filter: drop-shadow(0 0 15px var(--primary));
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.7; }
-        }
-
-        h1 {
-            font-size: 3rem;
-            font-weight: 900;
-            letter-spacing: -1px;
-            background: linear-gradient(to bottom, #fff, #666);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-        }
-
-        p {
-            color: #94a3b8;
-            font-size: 1.2rem;
-            max-width: 400px;
-            margin: 0 auto 30px;
-            line-height: 1.6;
-        }
-
-        .status-box {
-            display: inline-block;
-            padding: 10px 20px;
-            border: 1px solid rgba(255, 0, 51, 0.3);
-            border-radius: 50px;
-            background: rgba(255, 0, 51, 0.05);
-            color: var(--primary);
-            font-weight: 600;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .loader {
-            margin-top: 40px;
-            width: 40px;
-            height: 40px;
-            border: 3px solid rgba(255,255,255,0.1);
-            border-top: 3px solid var(--primary);
-            border-radius: 50%;
-            display: inline-block;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin { 100% { transform: rotate(360deg); } }
+        body { background: #030305; font-family: 'Outfit', sans-serif; color: white; overflow-x: hidden; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .neon-border { border: 1px solid rgba(0, 242, 255, 0.2); transition: 0.3s; }
+        .neon-border:hover { border-color: #00f2ff; box-shadow: 0 0 15px rgba(0, 242, 255, 0.2); }
+        .gradient-text { background: linear-gradient(to right, #fff, #00f2ff); -webkit-background-clip: text; color: transparent; }
     </style>
 </head>
 <body>
 
-    <div class="overlay"></div>
-
-    <div class="container">
-        <div class="icon">⚠️</div>
-        <h1>PÁGINA SUSPENDIDA</h1>
-        <p>Estamos realizando mejoras en el sistema para brindarte una mejor experiencia VIP.</p>
-        
-        <div class="status-box">
-            Mantenimiento en curso
+    <section id="auth-screen" class="min-h-screen flex items-center justify-center p-4">
+        <div class="glass p-8 rounded-[30px] w-full max-w-md text-center">
+            <div class="flex gap-4 mb-8">
+                <button id="tab-login" onclick="setMode('login')" class="flex-1 pb-2 border-b-2 border-[#00f2ff] font-black">LOGIN</button>
+                <button id="tab-reg" onclick="setMode('reg')" class="flex-1 pb-2 border-b-2 border-transparent opacity-50 font-black">REGISTRO</button>
+            </div>
+            
+            <h2 id="auth-title" class="text-3xl font-black mb-6 gradient-text">BIENVENIDO 👑</h2>
+            
+            <div class="space-y-4">
+                <input type="text" id="u" placeholder="Usuario" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl outline-none focus:border-[#00f2ff]">
+                <input type="email" id="e" placeholder="Correo (@gmail, @hotmail...)" class="hidden w-full p-4 bg-black/40 border border-white/10 rounded-xl outline-none focus:border-[#00f2ff]">
+                <input type="password" id="p" placeholder="Contraseña" class="w-full p-4 bg-black/40 border border-white/10 rounded-xl outline-none focus:border-[#00f2ff]">
+                
+                <button onclick="handleAuth()" class="w-full p-4 bg-white text-black font-black rounded-xl hover:bg-[#00f2ff] transition-all transform hover:scale-[1.02]">CONTINUAR</button>
+                <p id="msg" class="text-sm font-bold mt-4 h-5"></p>
+            </div>
         </div>
+    </section>
 
-        <br>
-        <div class="loader"></div>
-    </div>
+    <section id="store-screen" class="hidden py-12 px-6">
+        <h1 class="text-5xl font-black text-center mb-2 gradient-text text-white">DRIP STORE</h1>
+        <p class="text-center text-gray-500 mb-12 tracking-[4px] text-xs">EXCLUSIVE ACCESS</p>
+        
+        <div id="app-grid" class="max-w-xl mx-auto grid gap-4"></div>
+    </section>
 
+    <script>
+        // CONFIGURACIÓN CON TU REPO ACTUALIZADO
+        const TOKEN = "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";
+        const REPO = "robloxscripts2026-star/Basedata"; // <--- ACTUALIZADO
+        const FILE = "users.json";
+        
+        const DOMINIOS = ["@gmail.com", "@hotmail.com", "@hotmail.com.mx", "@outlook.com", "@live.com.mx"];
+        
+        let mode = 'login';
+        const apps = [
+            { n: 'CapCut Pro', d: 'Editor VIP Sin Marcas', i: '🎬', l: 'https://www.mediafire.com/file/epm2wsvnt6qe3il/CapCut_PR____14.7.0_ui_old.apk/file' },
+            { n: 'Delta Executor', d: 'Roblox Script Menu', i: '🤖', l: 'https://deltaexploits.gg/delta-executor-android' },
+            { n: 'GTA San Andreas', d: 'Juego Full v2.11.277', i: '🚗', l: 'https://www.mediafire.com/file/5brnv5qxhtng8no/gta%20san%20andreas%20v2.11.277%20-%20espacioapk.com.apk/file' },
+            { n: 'Minecraft', d: 'Última Versión Oficial', i: '🧱', l: 'https://mineckraftapk.com.mx/' },
+            { n: 'Próximamente', d: 'Cargando contenido...', i: '⌛', l: '#' }
+        ];
+
+        function setMode(m) {
+            mode = m;
+            document.getElementById('e').style.display = m === 'reg' ? 'block' : 'none';
+            document.getElementById('tab-login').style.opacity = m === 'login' ? '1' : '0.5';
+            document.getElementById('tab-login').style.borderColor = m === 'login' ? '#00f2ff' : 'transparent';
+            document.getElementById('tab-reg').style.opacity = m === 'reg' ? '1' : '0.5';
+            document.getElementById('tab-reg').style.borderColor = m === 'reg' ? '#00f2ff' : 'transparent';
+        }
+
+        async function handleAuth() {
+            const user = document.getElementById('u').value.trim();
+            const pass = document.getElementById('p').value.trim();
+            const mail = document.getElementById('e').value.trim();
+            const msg = document.getElementById('msg');
+
+            if(!user || !pass) { msg.innerText = "⚠️ Llena los campos"; return; }
+            msg.innerText = "⌛ Conectando...";
+
+            try {
+                const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${FILE}`, {
+                    headers: { Authorization: `token ${TOKEN}` }
+                });
+                const data = await res.json();
+                const users = JSON.parse(atob(data.content));
+
+                if(mode === 'reg') {
+                    const valido = DOMINIOS.some(d => mail.toLowerCase().endsWith(d));
+                    if(!valido) { msg.innerText = "❌ Correo inválido"; return; }
+                    if(users.find(u => u.usuario === user)) { msg.innerText = "❌ Usuario en uso"; return; }
+
+                    users.push({ usuario: user, correo: mail, contraseña: pass });
+                    
+                    await fetch(`https://api.github.com/repos/${REPO}/contents/${FILE}`, {
+                        method: 'PUT',
+                        headers: { Authorization: `token ${TOKEN}`, 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            message: "Registro: " + user,
+                            content: btoa(JSON.stringify(users, null, 2)),
+                            sha: data.sha
+                        })
+                    });
+                    msg.innerText = "✔️ ¡REGISTRADO!";
+                    setTimeout(loadStore, 1000);
+                } else {
+                    const login = users.find(u => u.usuario === user && u.contraseña === pass);
+                    if(login) { loadStore(); } else { msg.innerText = "❌ Datos incorrectos"; }
+                }
+            } catch(e) { msg.innerText = "❌ Error de conexión"; }
+        }
+
+        function loadStore() {
+            document.getElementById('auth-screen').classList.add('hidden');
+            document.getElementById('store-screen').classList.remove('hidden');
+            const grid = document.getElementById('app-grid');
+            apps.forEach(app => {
+                grid.innerHTML += `
+                <div class="glass neon-border p-5 rounded-2xl flex items-center gap-5 cursor-pointer" onclick="if('${app.l}'!=='#') window.open('${app.l}')">
+                    <div class="text-3xl bg-black/40 w-14 h-14 flex items-center justify-center rounded-xl">${app.i}</div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-lg">${app.n}</h3>
+                        <p class="text-xs text-gray-500">${app.d}</p>
+                    </div>
+                </div>`;
+            });
+        }
+    </script>
 </body>
 </html>
